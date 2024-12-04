@@ -1,32 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    body {
+body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #FF6666, #FFA07A);
     height: 100vh;
     overflow: hidden;
-}
-
-.card {
-    border: none;
-    border-radius: 20px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    font-weight: bold;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-}
-
-img {
-    max-width: 100%;
 }
 
 .login-form-area {
@@ -66,7 +46,7 @@ img {
 <div class="container w-100 vh-100 d-flex justify-content-center flex-column">
     <div class="row">
         <div class="col-md-12 d-flex justify-content-center mb-5">
-            <img src="{{asset('img/fix_it_logo.png')}}" alt="Fix it Logo" class="img-fluid" style="width: 300px;">
+            <img src="{{asset('img/fix_it_logo.png')}}" alt="Fix it Logo" class="img-fluid" style="width: 250px;">
         </div>
     </div>
     
