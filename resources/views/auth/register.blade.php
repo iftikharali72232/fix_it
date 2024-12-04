@@ -6,7 +6,7 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #FF6666, #FFA07A);
+    background: linear-gradient(320deg, #FF6666, #FFA07A);
     height: 100vh;
     overflow: hidden;
 }
