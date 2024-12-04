@@ -31,11 +31,9 @@ use App\Http\Controllers\Location;
 */
 // public routes
 Route::post("/msg", [RequestController::class,"sendMessage"])->name('sendMessage');
-Route::post("/register", [AuthController::class,"register"])->name('register');
 Route::post("/createDriver", [AuthController::class,"createDriver"])->name('createDriver');
 Route::get("/bankList", [AuthController::class,"bankList"])->name('bankList');
 Route::post("/sellerRegister", [AuthController::class,"sellerRegister"])->name('sellerRegister');
-Route::post("/login", [AuthController::class,"login"])->name('login');
 Route::post("/reset", [AuthController::class,"reset"])->name('reset');
 Route::post('resetRequest', [AuthController::class,'resetRequest'])->name('resetRequest');
 Route::post('otpVarification', [AuthController::class,'otpVarification'])->name('otpVarification');
@@ -51,7 +49,10 @@ Route::get('/getCategory/{id}', [CategoryController::class, 'getCategory'])->nam
 Route::get('/adminChoiceCategories', [CategoryController::class,'adminChoiceCategories'])->name('adminChoiceCategories');
 Route::post('/test', [RequestController::class, 'test'])->name('test');
 Route::post('/receiverAddressUpdate', [RequestController::class, 'receiverAddressUpdate'])->name('receiverAddressUpdate');
-
+Route::prefix("/user")->group(function () {
+    Route::post("/login", [AuthController::class,"login"])->name('login');
+    Route::post("/register", [AuthController::class,"register"])->name('register');
+});
 // protected routes
 Route::group(["middleware"=> "auth:sanctum"], function () {
     // Requests
@@ -82,18 +83,20 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
 
 
     // User requests
-    Route::get("/user", [AuthController::class,"user"])->name('user');
-    Route::get("/logout", [AuthController::class,"logout"])->name('logout');
-    Route::get('/deleteUser', [AuthController::class, 'delete'])->name('deleteUser');
-    Route::get('/userList/{id}', [AuthController::class,'userList'])->name('userList');
-    Route::post('/updateUser', [AuthController::class,'updateUser'])->name('updateUser');
-    Route::post('/setLocation', [AuthController::class, 'setLocation'])->name('setLocation');
-    Route::post('/updateProfileImage/{id}', [AuthController::class, 'updateProfileImage'])->name('updateProfileImage');
-    Route::post('/cardDetail', [AuthController::class, 'cardDetail'])->name('cardDetail');
-    Route::post('/cardDetailUpdate/{id}', [AuthController::class, 'cardDetailUpdate'])->name('cardDetailUpdate');
-    Route::post('/deleteCardDetails/{id}', [AuthController::class, 'deleteCardDetails'])->name('deleteCardDetails');
-    Route::post('/updateVehicle', [AuthController::class, 'updateVehicle'])->name('updateVehicle');
-    Route::post('/send-notification', [AuthController::class, 'sendNotification'])->name('sendNotification');
+    Route::prefix("/user")->group(function () {
+        Route::get("/user", [AuthController::class,"user"])->name('user');
+        Route::post("/logout", [AuthController::class,"logout"])->name('logout');
+        Route::get('/deleteUser', [AuthController::class, 'delete'])->name('deleteUser');
+        Route::get('/userList/{id}', [AuthController::class,'userList'])->name('userList');
+        Route::post('/updateUser', [AuthController::class,'updateUser'])->name('updateUser');
+        Route::post('/setLocation', [AuthController::class, 'setLocation'])->name('setLocation');
+        Route::post('/updateProfileImage/{id}', [AuthController::class, 'updateProfileImage'])->name('updateProfileImage');
+        Route::post('/cardDetail', [AuthController::class, 'cardDetail'])->name('cardDetail');
+        Route::post('/cardDetailUpdate/{id}', [AuthController::class, 'cardDetailUpdate'])->name('cardDetailUpdate');
+        Route::post('/deleteCardDetails/{id}', [AuthController::class, 'deleteCardDetails'])->name('deleteCardDetails');
+        Route::post('/updateVehicle', [AuthController::class, 'updateVehicle'])->name('updateVehicle');
+        Route::post('/send-notification', [AuthController::class, 'sendNotification'])->name('sendNotification');
+    });
 
 
     // Categories requests

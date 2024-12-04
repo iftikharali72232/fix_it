@@ -23,7 +23,7 @@ class AuthController extends Controller
         // print_r($request->name_ar); exit;
         $attrs = $request->validate([
             "name"=> "required|string",
-            "email"=> "required|email|unique:users,email",
+            // "email"=> "required|email|unique:users,email",
             "password"=> "required|min:6|confirmed",
             'mobile' => 'required|unique:users',
             'user_type'=> 'required|int',
@@ -37,7 +37,7 @@ class AuthController extends Controller
         $user = User::create([
             "name"=> $attrs["name"],
             "name_ar"=> $request->name_ar,
-            "email"=> $attrs["email"],
+            "email"=> isset($attrs["email"]) ? $attrs["email"] : "",
             "mobile" => $attrs["mobile"],
             "user_type" => $attrs['user_type'],
             "password"=> bcrypt($attrs["password"]),
@@ -55,14 +55,14 @@ class AuthController extends Controller
        
         if($user)
         {
-            Wallet::create([
-                'user_id' => $user->id
-            ]);
-            $notification = new Notification();
-            $notification->user_id = $user->id; // Assuming the user is authenticated
-            $notification->message = 'Your account registered Successfully';
-            $notification->page = 'profile';
-            $notification->save();
+            // Wallet::create([
+            //     'user_id' => $user->id
+            // ]);
+            // $notification = new Notification();
+            // $notification->user_id = $user->id; // Assuming the user is authenticated
+            // $notification->message = 'Your account registered Successfully';
+            // $notification->page = 'profile';
+            // $notification->save();
             return response([
                 'users' => $user,
                 'token' => $user->createToken('secret')->plainTextToken,

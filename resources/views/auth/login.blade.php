@@ -1,83 +1,114 @@
 @extends('layouts.app')
-<?php
-use App\Helpers\CommonHelper;
-?>
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+<style>
+    body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #FF6666, #FFA07A);
+    height: 100vh;
+}
 
-            <div class="d-flex justify-content-center py-4">
-                <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">{{ trans('lang.labeey') }}</span>
-                </a>
-              </div><!-- End Logo -->
-              <div class="card mb-3">
-              @if ($message = Session::get('error'))
-                <div class="alert alert-danger">
-                    <p>{{ $message }}</p>
+.card {
+    border: none;
+    border-radius: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+img {
+    max-width: 100%;
+}
+
+</style>
+<div class="container-fluid" style="height: 100vh; background: linear-gradient(135deg, #FF6666, #FFA07A);">
+    <div class="row h-100">
+        <!-- Left Section with Illustration -->
+        <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center">
+            <img src="{{asset('img/construction_illusion.png')}}" alt="Construction Illustration" class="img-fluid" height="100%" width="100%;" style="padding-top: 10%;">
+        </div>
+
+        <!-- Right Section with Login Form -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <div class="card shadow-lg p-4" style="border-radius: 20px; width: 400px;">
+                <div class="text-center mb-4">
+                    <!-- Logo -->
+                    <h1 class="text-danger fw-bold">FIX</h1>
                 </div>
+
+                <!-- Profile Icon -->
+                <div class="text-center mb-3">
+                    <img src="{{asset('img/user-circle.svg')}}" alt="User Icon" style="width: 80px; height: 80px; border-radius: 50%;">
+                </div>
+
+                <!-- Title -->
+                <h5 class="text-center">{{ trans('lang.login_to_account') }}</h5>
+                <p class="text-center text-muted small">{{ trans('lang.enter_username_password') }}</p>
+
+                @if ($message = Session::get('error'))
+                    <div class="alert alert-danger">
+                        <p>{{ $message }}</p>
+                    </div>
                 @endif
-                <div class="card-body">
 
-                    <div class="pt-4 pb-2">
-                        <h5 class="card-title text-center pb-0 fs-4">{{trans('lang.login_to_account')}}</h5>
-                        <p class="text-center small">{{trans('lang.enter_username_password')}}</p>
-                      </div>
+                <!-- Login Form -->
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <!-- Username Input -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">{{ trans('lang.username') }}</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                               name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @error('email')
+                            <span class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
 
-                    <form  class="row g-3 needs-validation" method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <div class="col-12">
-                            <label for="yourUsername" class="form-label">{{trans('lang.username')}}</label>
-                            <div class="input-group has-validation">
-                              <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <!-- Password Input -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ trans('lang.password') }}</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                               name="password" required autocomplete="current-password">
+                        @error('password')
+                            <span class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" 
+                               {{ old('remember') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="remember">
+                            {{ trans('lang.remember_me') }}
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">{{ trans('lang.login') }}</button>
+                    </div>
+
+                    <!-- Forgot Password -->
+                    @if (Route::has('password.request'))
+                        <div class="text-center mt-3">
+                            <a href="{{ route('password.request') }}" class="small">
+                                {{ trans('lang.forgot_password') }}
+                            </a>
                         </div>
-
-                        <div class="col-12">
-                            <label for="yourPassword" class="form-label">{{trans('lang.password')}}</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{trans('lang.remember_me') }}
-                                    </label>
-                                </div>
-                            </div>
-
-
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    {{ trans('lang.login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link small mb-0" href="{{ route('password.request') }}">
-                                        {{ trans('lang.forgot_password') }}
-                                    </a>
-                                @endif
-                            </div>
-
-                    </form>
-                </div>
+                    @endif
+                </form>
             </div>
         </div>
     </div>
