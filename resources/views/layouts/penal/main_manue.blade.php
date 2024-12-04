@@ -4,7 +4,7 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link " href="{{route('home')}}">
+      <a class="nav-link {{ Route::is('home') ? 'text-white' : 'text-muted-blue' }}" href="{{route('home')}}">
         <i class="bi bi-grid"></i>
         <span>{{trans('lang.dashboard')}}</span>
       </a>
@@ -17,7 +17,8 @@
       <ul id="Category" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('category.index')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.category_list')}}</span>
+            <i class="bi bi-circle"></i>
+            <span>{{trans('lang.category_list')}}</span>
           </a>
         </li>
         <li>

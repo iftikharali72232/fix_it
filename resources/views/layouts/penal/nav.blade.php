@@ -4,9 +4,9 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{route('home')}}" class="logo d-flex align-items-center">
         <img src="<?= asset("img/logo.png") ?>" alt="">
-        <span class="d-none d-lg-block">{{ trans('lang.labeey') }}{{Session::get('branch_id')}}</span>
+        <span class="d-none d-lg-block text-white">{{ trans('lang.labeey') }}{{Session::get('branch_id')}}</span>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <i class="bi bi-list toggle-sidebar-btn text-white"></i>
     </div><!-- End Logo -->
 <?php
 
@@ -14,14 +14,15 @@
 
   $new_users = DB::select('SELECT id,name, user_type, created_at FROM users WHERE is_read =0 AND user_type != 0 ORDER BY id DESC'); ?>
     <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <form class="search-form d-flex align-items-center mb-0" method="POST" action="#">
         <input type="text" name="query" placeholder="Search" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
     </div><!-- End Search Bar -->
 
-    <a href="{{ url('lang/en') }}" class="mx-30px">English</a>
-        <a href="{{ url('lang/ar') }}">العربية</a>
+    <a href="{{ url('lang/en') }}" class="mx-30px {{ app()->getLocale() == 'en' ? 'text-white' : 'text-dark' }}">English</a>
+    <a href="{{ url('lang/ar') }}" class="{{ app()->getLocale() == 'ar' ? 'text-white' : 'text-dark' }}">العربية</a>
+
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -33,7 +34,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
+            <i class="bi bi-bell text-white"></i>
             <span class="badge bg-primary badge-number">{{count($new_users)}}</span>
           </a><!-- End Notification Icon -->
 
@@ -157,7 +158,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{route('profile')}}" data-bs-toggle="dropdown">
             <img src="{{asset('images/'.Auth::user()->image)}}" alt="" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{Auth::user()->name}}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2 text-white">{{Auth::user()->name}}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
