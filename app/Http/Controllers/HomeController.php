@@ -52,7 +52,8 @@ class HomeController extends Controller
         $thisMonth = Carbon::now()->startOfMonth();
         $thisYear = Carbon::now()->startOfYear();
         
-        $data['reports'] = json_decode(json_encode($this->getTopSellers($thisMonth)), true);
+        $data['reports'] = array();
+        // $data['reports'] = json_decode(json_encode($this->getTopSellers($thisMonth)), true);
         $data['top_sellings'] = array_filter(json_decode(json_encode($this->topSellingProducts()), true), 'is_array');
         $data['recent_orders'] = json_decode(json_encode($this->getLastFiveOrdersWithNames()), true);
         // echo "<pre>";print_r($data['top_sellings']); exit;
