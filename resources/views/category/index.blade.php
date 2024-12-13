@@ -3,12 +3,12 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>{{trans('lang.category_list')}}</h1>
+  <h1>{{trans('lang.service_list')}}</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">{{trans('lang.home')}}</a></li>
       <li class="breadcrumb-item">{{trans('lang.forms')}}</li>
-      <li class="breadcrumb-item active">{{trans('lang.elements')}}</li>
+      <li class="breadcrumb-item active">{{trans('lang.services')}}</li>
     </ol>
   </nav>
 </div>

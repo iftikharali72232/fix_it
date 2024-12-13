@@ -12,22 +12,39 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Category" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>{{trans('lang.category')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-sliders"></i><span>{{trans('lang.serivices')}}</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="Category" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('category.index')}}">
             <i class="bi bi-circle"></i>
-            <span>{{trans('lang.category_list')}}</span>
+            <span>{{trans('lang.service_list')}}</span>
           </a>
         </li>
         <li>
           <a href="{{route('category.create')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.category_create')}}</span>
+            <i class="bi bi-circle"></i><span>{{trans('lang.service_create')}}</span>
           </a>
         </li>
       </ul>
     </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>{{trans('lang.sub_services')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('product.index')}}">
+            <i class="bi bi-circle"></i><span>{{trans('lang.sub_service_list')}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{route('product.create')}}">
+            <i class="bi bi-circle"></i><span>{{trans('lang.sub_service_create')}}</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#shop" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>{{trans('lang.request')}}</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -45,7 +62,7 @@
         </li>
       </ul>
     </li>
-    <!-- <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>{{trans('lang.product')}}</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -61,7 +78,7 @@
           </a>
         </li>
       </ul>
-    </li> -->
+    </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>{{trans('lang.users')}}</span><i class="bi bi-chevron-down ms-auto"></i>

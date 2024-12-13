@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="pagetitle">
-  <h1>{{trans('lang.category_create')}}</h1>
+  <h1>{{trans('lang.service_create')}}</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">{{trans('lang.home')}}</a></li>
