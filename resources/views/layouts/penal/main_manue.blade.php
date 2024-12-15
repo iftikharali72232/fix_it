@@ -12,20 +12,20 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Category" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>{{trans('lang.serivices')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-sliders"></i><span>Orders</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="Category" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('category.index')}}">
             <i class="bi bi-circle"></i>
-            <span>{{trans('lang.service_list')}}</span>
+            <span>Order List</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{route('category.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.service_create')}}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </li>
     <!-- <li class="nav-item">
@@ -47,61 +47,111 @@
     </li> -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#shop" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>{{trans('lang.request')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-sliders"></i><span>Customers</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="shop" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('request.index')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.request_list')}}</span>
+            <i class="bi bi-circle"></i><span>Customer list</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{route('request.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.request_tracking')}}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>{{trans('lang.product')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-sliders"></i><span>Services</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('product.index')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.product_list')}}</span>
+            <i class="bi bi-circle"></i><span>Service List</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{route('product.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.product_create')}}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>{{trans('lang.users')}}</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-sliders"></i><span>Teams</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('users.index')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.user_list')}}</span>
+            <i class="bi bi-circle"></i><span>Teams List</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{route('users.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
           </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('users.index')}}">
+            <i class="bi bi-circle"></i><span>Users List</span>
+          </a>
         </li>
+        <!-- <li>
+          <a href="{{route('users.create')}}">
+            <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
+          </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>Chat</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('users.index')}}">
+            <i class="bi bi-circle"></i><span>Chat List</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a href="{{route('users.create')}}">
+            <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
+          </a>
+        </li> -->
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>Library</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <!-- <li>
+          <a href="{{route('users.index')}}">
+            <i class="bi bi-circle"></i><span>Teams List</span>
+          </a>
+        </li> -->
+        <!-- <li>
+          <a href="{{route('users.create')}}">
+            <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
+          </a>
+        </li> -->
       </ul>
     </li>
 
 
 
 
-
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>{{trans('lang.setting')}}</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -116,18 +166,18 @@
             <i class="bi bi-circle"></i><span>{{trans('lang.banner_list')}}</span>
           </a>
         </li>
-        <!-- <li>
+        <li>
           <a href="{{route('orders.index')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.order_list')}}</span>
           </a>
-        </li> -->
+        </li>
         <li>
           <a href="{{route('payment_method.index')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.payment_method')}}</span>
           </a>
         </li>
       </ul>
-    </li>
+    </li> -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="{{ route('logout') }}"  onclick="event.preventDefault();
       document.getElementById('logout-form').submit();">
