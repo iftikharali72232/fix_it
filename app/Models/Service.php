@@ -9,6 +9,7 @@ class Service extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'service_name',
         'description',
         'thumbnail',
@@ -17,6 +18,7 @@ class Service extends Model
         'estimated_time',
         'start_time',
         'service_cost',
+        'actual_cost'
     ];
 
     public function category()

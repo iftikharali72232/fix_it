@@ -31,9 +31,10 @@ class ServiceController extends Controller
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'category_id' => 'required|exists:categories,id',
-            'estimated_time' => 'required|integer',
-            'start_time' => 'required|date_format:H:i',
-            'service_cost' => 'required|numeric|min:0',
+            'estimated_time' => 'required',
+            'start_time' => 'required',
+            'service_cost' => 'required',
+            'actual_cost' => 'required|numeric|min:0',
         ]);
 
         // Handle file uploads (thumbnail)
@@ -64,6 +65,7 @@ class ServiceController extends Controller
             'estimated_time' => $request->estimated_time,
             'start_time' => $request->start_time,
             'service_cost' => $request->service_cost,
+            'actual_cost' => $request->actual_cost,
         ]);
 
         // Redirect with success message

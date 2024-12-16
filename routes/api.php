@@ -98,7 +98,11 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
         Route::post('/send-notification', [AuthController::class, 'sendNotification'])->name('sendNotification');
     });
 
-
+    Route::prefix("/category")->group(function () {
+        Route::get('/list', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
+        Route::post('/services', [CategoryController::class, 'getAllServices'])->name('getAllServices');
+    });
+    
     // Categories requests
     Route::post('/createCategory', [CategoryController::class,'create'])->name('createCategory');
     Route::get('/deleteCategory/{id}', [CategoryController::class, 'delete'])->name('deleteCategory');

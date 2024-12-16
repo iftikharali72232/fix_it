@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Request as ModelsRequest;
+use App\Models\Service;
 use App\Models\Shop;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -382,6 +383,20 @@ class CategoryController extends Controller
         return response([
             "status" => 1,
             "categories" => json_decode(json_encode($categories), true)
+        ]);
+    }
+
+    function getAllServices(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required|int'
+        ]);
+
+        $services = Service::where('category_id', $request->category_id)->get();
+
+        return response()->json([
+            'status' => 1,
+            'services' => $services
         ]);
     }
 }

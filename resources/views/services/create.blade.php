@@ -43,19 +43,25 @@
         <!-- Estimated Time -->
         <div class="mb-3">
             <label for="estimated_time" class="form-label">Estimated Time (minutes)</label>
-            <input type="number" class="form-control" id="estimated_time" name="estimated_time">
+            <input type="text" class="form-control" id="estimated_time" name="estimated_time">
         </div>
 
         <!-- Start Time -->
         <div class="mb-3">
             <label for="start_time" class="form-label">Start Time</label>
-            <input type="time" class="form-control" id="start_time" name="start_time">
+            <input type="text" class="form-control" id="start_time" name="start_time">
         </div>
 
         <!-- Service Cost -->
         <div class="mb-3">
-            <label for="service_cost" class="form-label">Service Cost</label>
-            <input type="number" class="form-control" id="service_cost" name="service_cost" step="0.01" required>
+            <label for="service_cost" class="form-label">Service Cost Range</label>
+            <input type="text" class="form-control" id="service_cost" name="service_cost" step="0.01" required>
+        </div>
+
+        <!-- Service Cost -->
+        <div class="mb-3">
+            <label for="actual_cost" class="form-label">Actual Cost</label>
+            <input type="text" class="form-control" id="actual_cost" name="actual_cost" step="0.01" required>
         </div>
 
         <!-- Submit Button -->
