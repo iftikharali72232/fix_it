@@ -28,7 +28,7 @@
                     <td>{{ $service->id }}</td>
                     <td>
                         @if($service->thumbnail)
-                            <img src="{{ {{asset('thumbnails').'/'.$service->thumbnail }}" alt="Thumbnail" width="80" height="80">
+                            <img src="{{asset('thumbnails').'/'.$service->thumbnail }}" alt="" width="80" height="80">
                         @else
                             No Image
                         @endif
