@@ -68,15 +68,15 @@
       </a>
       <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('product.index')}}">
+          <a href="{{route('services.index')}}">
             <i class="bi bi-circle"></i><span>Service List</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="{{route('product.create')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.product_create')}}</span>
+        <li>
+          <a href="{{route('services.create')}}">
+            <i class="bi bi-circle"></i><span>Service Create</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <li class="nav-item">
