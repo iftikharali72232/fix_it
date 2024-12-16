@@ -396,7 +396,9 @@ class CategoryController extends Controller
 
         return response()->json([
             'status' => 1,
-            'services' => $services
+            'services' => $services,
+            'thumbnail_image_base_url' => asset('thumbnails/'),
+            'images_base_url' => asset('images/')
         ]);
     }
 }
