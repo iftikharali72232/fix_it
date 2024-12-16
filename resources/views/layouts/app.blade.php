@@ -82,4 +82,10 @@
   <!-- Template Main JS File -->
   <script src="{{asset('js/main.js')}}"></script>
 
-
+  <script>
+    function changeLanguage() {
+      const isChecked = document.getElementById('color_mode').checked;
+      const newLang = isChecked ? 'ar' : 'en';
+      window.location.href = `{{ url('lang') }}/${newLang}`;
+    }
+  </script>

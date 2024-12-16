@@ -20,8 +20,27 @@
       </form>
     </div><!-- End Search Bar -->
 
-    <a href="{{ url('lang/en') }}" class="mx-30px {{ app()->getLocale() == 'en' ? 'text-white' : 'text-dark' }}">English</a>
-    <a href="{{ url('lang/ar') }}" class="{{ app()->getLocale() == 'ar' ? 'text-white' : 'text-dark' }}">العربية</a>
+    <div class="btn-container">
+      <label class="switch btn-color-mode-switch">
+          <input 
+              value="1" 
+              id="color_mode" 
+              name="color_mode" 
+              type="checkbox"
+              onclick="changeLanguage()"
+              {{ app()->getLocale() == 'ar' ? 'checked' : '' }}>
+          <label 
+              class="btn-color-mode-switch-inner" 
+              data-off="EN" 
+              data-on="العربية" 
+              for="color_mode">
+          </label>
+      </label>
+    </div>
+
+
+    <!-- <a href="{{ url('lang/en') }}" class="mx-30px {{ app()->getLocale() == 'en' ? 'text-white' : 'text-dark' }}">English</a>
+    <a href="{{ url('lang/ar') }}" class="{{ app()->getLocale() == 'ar' ? 'text-white' : 'text-dark' }}">العربية</a> -->
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
