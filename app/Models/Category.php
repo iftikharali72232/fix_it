@@ -18,5 +18,9 @@ class Category extends Model
     ];
     protected $hidden = [
     ];
-    
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
 }

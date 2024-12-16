@@ -20,6 +20,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethod;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\WalletController;
 
 /*
@@ -70,6 +71,15 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('payment_method', PaymentMethod::class);
     Route::get('active/{id}', [PaymentMethod::class,'active'])->name('active');
     Route::get('inactive/{id}', [PaymentMethod::class,'inactive'])->name('inactive');
+
+    // Service routes
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::post('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
 });
 
 
