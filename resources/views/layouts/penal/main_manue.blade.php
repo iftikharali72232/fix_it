@@ -64,6 +64,23 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>Categories</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      </a>
+      <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('categroy.index')}}">
+            <i class="bi bi-circle"></i><span>Category List</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{route('categroy.create')}}">
+            <i class="bi bi-circle"></i><span>Category Create</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Services</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
