@@ -68,12 +68,12 @@
       </a>
       <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('categroy.index')}}">
+          <a href="{{route('category.index')}}">
             <i class="bi bi-circle"></i><span>Category List</span>
           </a>
         </li>
         <li>
-          <a href="{{route('categroy.create')}}">
+          <a href="{{route('category.create')}}">
             <i class="bi bi-circle"></i><span>Category Create</span>
           </a>
         </li>
