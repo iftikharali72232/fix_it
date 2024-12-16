@@ -16,7 +16,7 @@ html {
 }
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
+  background: linear-gradient(40deg, #FF6666 40%, #FFA07A 80%) !important;
   color: #444444;
   direction: rtl;
 }
@@ -377,9 +377,14 @@ h6 {
   line-height: 1;
 }
 
+.margin-s-auto {
+  margin-right: auto !important;
+}
+
 @media (min-width: 1200px) {
   .logo {
-    width: 280px;
+    width: 300px !important;
+    padding-right: 20px !important;
   }
 }
 
@@ -682,8 +687,56 @@ h6 {
   }
 
   .toggle-sidebar .sidebar {
-    right: -300px;
+    width: 100px;
     left: auto;
+    overflow: visible;
+  }
+
+  .toggle-sidebar .sidebar .nav-link span {
+      display: none !important;
+  }
+
+  .toggle-sidebar .sidebar .nav-link {
+      padding: 10px 15px;
+  }
+
+  .toggle-sidebar .sidebar .nav-item {
+      position: relative !important;
+  }
+
+  .toggle-sidebar .sidebar .nav-item ul {
+      background: white;
+      position: absolute;
+      z-index: 100;
+      right: 100%; /* Position the dropdown outside the sidebar */
+      top: 0; /* Align with the top of the parent item */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional */
+      min-width: 150px; /* Ensure dropdown is wide enough */
+  }
+
+  .toggle-sidebar .sidebar-nav .nav-content a {
+    padding: 10px;
+  }
+
+  .toggle-sidebar header .logo {
+    width: 100px !important;
+    padding-right: 10px !important;
+    transition: 0.3s;
+  }
+
+  .toggle-sidebar .logo img {
+    max-height: 25px;
+    transition: 0.3s;
+  }  
+
+  .toggle-sidebar .sidebar-nav .nav-link i {
+    font-size: 24px;
+    margin-right: 0px;
+    transition: 0.3s;
+  }
+
+  .toggle-sidebar .bi-chevron-down::before {
+    display: none;
   }
 }
 
@@ -725,7 +778,7 @@ h6 {
 
 .sidebar-nav .nav-link i {
   font-size: 16px;
-  margin-right: 10px;
+  margin-left: 10px;
   color: #4154f1;
 }
 
