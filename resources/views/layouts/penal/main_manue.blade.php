@@ -63,10 +63,10 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#cate" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Categories</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="cate" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('category.index')}}">
             <i class="bi bi-circle"></i><span>Category List</span>
@@ -80,10 +80,10 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#Item" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#service" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Services</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="Item" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="service" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('services.index')}}">
             <i class="bi bi-circle"></i><span>Service List</span>
