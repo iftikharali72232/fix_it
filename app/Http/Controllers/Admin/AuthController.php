@@ -23,7 +23,6 @@ class AuthController extends Controller
         // print_r($request->name_ar); exit;
         $attrs = $request->validate([
             "name"=> "required|string",
-            // "email"=> "required|email|unique:users,email",
             "password"=> "required|min:6|confirmed",
             'mobile' => 'required|unique:users',
             'user_type'=> 'required|int',
@@ -37,7 +36,7 @@ class AuthController extends Controller
         $user = User::create([
             "name"=> $attrs["name"],
             "name_ar"=> $request->name_ar,
-            "email"=> isset($attrs["email"]) ? $attrs["email"] : "",
+            "email"=> $request->email,
             "mobile" => $attrs["mobile"],
             "user_type" => $attrs['user_type'],
             "password"=> bcrypt($attrs["password"]),
