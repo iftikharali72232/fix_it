@@ -77,8 +77,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
     Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    Route::post('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
+    Route::delete('services/{service}/thumbnail', [ServiceController::class, 'deleteThumbnail'])->name('services.deleteThumbnail');
+    Route::delete('services/{service}/images/{image}', [ServiceController::class, 'deleteImage'])->name('services.deleteImage');
 
 });
 

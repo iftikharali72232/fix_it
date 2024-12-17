@@ -64,8 +64,63 @@
             <input type="text" class="form-control" id="actual_cost" name="actual_cost" step="0.01" required>
         </div>
 
+        <!-- Other Fields (Description, Thumbnail, etc.) -->
+
+        <!-- Service Variables -->
+        <h5>Service Variables</h5>
+        <div id="service-variables-container">
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
+                <button type="button" class="btn btn-success ms-2 add-service-variable">+</button>
+            </div>
+        </div>
+
+        <!-- Service Phases -->
+        <h5>Service Phases</h5>
+        <div id="service-phases-container">
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
+                <button type="button" class="btn btn-success ms-2 add-service-phase">+</button>
+            </div>
+        </div>
+
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Create Service</button>
     </form>
 </div>
+<!-- JavaScript for Adding Input Fields Dynamically -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Service Variables
+    document.querySelector('.add-service-variable').addEventListener('click', function() {
+        let container = document.getElementById('service-variables-container');
+        let newInput = `
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
+                <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', newInput);
+    });
+
+    // Add Service Phases
+    document.querySelector('.add-service-phase').addEventListener('click', function() {
+        let container = document.getElementById('service-phases-container');
+        let newInput = `
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
+                <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', newInput);
+    });
+
+    // Remove Input Field
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-input')) {
+            e.target.parentElement.remove();
+        }
+    });
+});
+</script>
 @endsection

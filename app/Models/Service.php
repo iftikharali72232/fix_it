@@ -25,6 +25,16 @@ class Service extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    // Relationship with ServiceVariable
+    public function serviceVariables()
+    {
+        return $this->hasMany(ServiceVariable::class, 'service_id');
+    }
 
+    // Relationship with ServicePhase
+    public function servicePhases()
+    {
+        return $this->hasMany(ServicePhase::class, 'service_id');
+    }
 
 }
