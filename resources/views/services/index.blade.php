@@ -38,6 +38,8 @@
                     <td>{{ $service->description }}</td>
                     <td>${{ $service->service_cost }}</td>
                     <td>
+                        <!-- View Button -->
+                        <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-info">View</a>
                         <!-- Edit Button -->
                         <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-warning">Edit</a>
                         

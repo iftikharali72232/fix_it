@@ -188,5 +188,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+document.getElementById('images').addEventListener('change', function (event) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const file = event.target.files[0];
+        
+        if (file && !allowedTypes.includes(file.type)) {
+            alert('Please upload an image file (JPEG, PNG, GIF).');
+            event.target.value = ''; // Clear the input
+        }
+    });
+    document.getElementById('thumbnail').addEventListener('change', function (event) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const file = event.target.files[0];
+        
+        if (file && !allowedTypes.includes(file.type)) {
+            alert('Please upload an image file (JPEG, PNG, GIF).');
+            event.target.value = ''; // Clear the input
+        }
+    });
 </script>
 @endsection

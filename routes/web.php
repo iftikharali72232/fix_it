@@ -84,6 +84,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::delete('services/{service}/thumbnail', [ServiceController::class, 'deleteThumbnail'])->name('services.deleteThumbnail');
     Route::delete('services/{service}/images/{image}', [ServiceController::class, 'deleteImage'])->name('services.deleteImage');
+    Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services.show');
+
 
     Route::resource('teams', TeamController::class);
 

@@ -181,6 +181,14 @@ class ServiceController extends Controller
         return redirect()->route('services.index')->with('success', 'Service updated successfully!');
     }
     
+    public function show($id)
+    {
+        // Fetch the service along with its category and phases
+        $service = Service::with(['category', 'servicePhases'])->findOrFail($id);
+
+        // Pass the service data to the view
+        return view('services.show', compact('service'));
+    }
 
 
     // Delete the service
