@@ -28,7 +28,6 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
             'service_name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -42,90 +41,72 @@ class ServiceController extends Controller
             'service_variables' => 'nullable|array',
             'service_phases' => 'nullable|array',
         ]);
-
-        // Use a database transaction to ensure atomicity
+        
         DB::beginTransaction();
 
         try {
-            // Handle file uploads (thumbnail)
-            $thumbnailPath = null;
-            if ($request->hasFile('thumbnail')) {
-                $image = $request->file('thumbnail');
-                $thumbnailPath = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('thumbnails'), $thumbnailPath);
-            }
-
-            // Handle multiple image uploads
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
             $imagePaths = [];
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $imageName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('images'), $imageName);
-                    $imagePaths[] = $imageName;
+                    $imagePaths[] = $image->store('images', 'public');
                 }
             }
 
-            // Create the service
+            $variablesJson = [];
+            if ($request->has('service_variables')) {
+                foreach ($request->input('service_variables') as $variable) {
+                    $variablesJson[] = [
+                        'label' => $variable['label'] ?? null,
+                        'type' => $variable['type'] ?? null,
+                        'dropdown_values' => isset($variable['dropdown_values'])
+                            ? explode(',', $variable['dropdown_values'])
+                            : null,
+                    ];
+                }
+            }
+            // echo "<pre>";print_r($variablesJson); exit;
             $service = Service::create([
                 'service_name' => $request->service_name,
                 'description' => $request->description,
                 'thumbnail' => $thumbnailPath,
-                'images' => json_encode($imagePaths), // Store images as JSON
+                'images' => json_encode($imagePaths),
                 'category_id' => $request->category_id,
                 'estimated_time' => $request->estimated_time,
                 'start_time' => $request->start_time,
                 'service_cost' => $request->service_cost,
                 'actual_cost' => $request->actual_cost,
+                'variables_json' => json_encode($variablesJson),
             ]);
 
-            // Store Service Variables
-            if ($request->has('service_variables')) {
-                foreach ($request->input('service_variables') as $variable) {
-                    if (!empty($variable)) {
-                        ServiceVariable::create([
-                            'service_id' => $service->id,
-                            'variable' => $variable,
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                    }
-                }
-            }
-
-            // Store Service Phases
             if ($request->has('service_phases')) {
-                foreach ($request->input('service_phases') as $phase) {
+                foreach ($request->service_phases as $phase) {
                     if (!empty($phase)) {
                         ServicePhase::create([
                             'service_id' => $service->id,
                             'phase' => $phase,
-                            'created_at' => now(),
-                            'updated_at' => now(),
                         ]);
                     }
                 }
             }
 
-            // Commit the transaction if everything is successful
             DB::commit();
-
             return redirect()->route('services.index')->with('success', 'Service created successfully!');
         } catch (\Exception $e) {
-            // Rollback the transaction on failure
             DB::rollBack();
-
-            return redirect()->back()->with('error', 'Failed to create service. Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create service: ' . $e->getMessage());
         }
     }
+
 
 
     
 
     public function edit($id)
     {
-        $service = Service::with(['serviceVariables', 'servicePhases'])->findOrFail($id);
+        $service = Service::with(['servicePhases'])->findOrFail($id);
         $categories = Category::all();
-
+        // dd(compact('service', 'categories'));
         return view('services.edit', compact('service', 'categories'));
     }
 
@@ -144,19 +125,25 @@ class ServiceController extends Controller
             'service_variables' => 'nullable|array',
             'service_phases' => 'nullable|array',
         ]);
-
+    
         $service = Service::findOrFail($id);
-
+    
         // Handle Thumbnail Upload
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $thumbnailPath = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('thumbnails'), $thumbnailPath);
+    
+            // Delete old thumbnail if it exists
+            if ($service->thumbnail && file_exists(public_path('thumbnails/' . $service->thumbnail))) {
+                unlink(public_path('thumbnails/' . $service->thumbnail));
+            }
+    
             $service->thumbnail = $thumbnailPath;
         }
-
-        // Handle multiple images upload
-        $imagePaths = json_decode($service->images) ?? [];
+    
+        // Handle Multiple Images Upload
+        $imagePaths = json_decode($service->images, true) ?? [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
@@ -164,7 +151,7 @@ class ServiceController extends Controller
                 $imagePaths[] = $imageName;
             }
         }
-
+    
         // Update Service
         $service->update([
             'service_name' => $request->service_name,
@@ -175,21 +162,9 @@ class ServiceController extends Controller
             'start_time' => $request->start_time,
             'service_cost' => $request->service_cost,
             'actual_cost' => $request->actual_cost,
+            'variables_json' => json_encode($request->service_variables), // Save variables as JSON
         ]);
-
-        // Update Service Variables
-        ServiceVariable::where('service_id', $service->id)->delete();
-        if ($request->has('service_variables')) {
-            foreach ($request->input('service_variables') as $variable) {
-                if (!empty($variable)) {
-                    ServiceVariable::create([
-                        'service_id' => $service->id,
-                        'variable' => $variable,
-                    ]);
-                }
-            }
-        }
-
+    
         // Update Service Phases
         ServicePhase::where('service_id', $service->id)->delete();
         if ($request->has('service_phases')) {
@@ -202,9 +177,10 @@ class ServiceController extends Controller
                 }
             }
         }
-
+    
         return redirect()->route('services.index')->with('success', 'Service updated successfully!');
     }
+    
 
 
     // Delete the service
@@ -218,6 +194,7 @@ class ServiceController extends Controller
 
     public function deleteThumbnail(Service $service)
     {
+        // $service = Service::find($id);
         if ($service->thumbnail && file_exists(public_path('thumbnails/' . $service->thumbnail))) {
             unlink(public_path('thumbnails/' . $service->thumbnail));
             $service->update(['thumbnail' => null]);

@@ -21,6 +21,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethod;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\WalletController;
 
 /*
@@ -82,6 +84,11 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::delete('services/{service}/thumbnail', [ServiceController::class, 'deleteThumbnail'])->name('services.deleteThumbnail');
     Route::delete('services/{service}/images/{image}', [ServiceController::class, 'deleteImage'])->name('services.deleteImage');
+
+    Route::resource('teams', TeamController::class);
+
+    Route::resource('team_users', TeamUserController::class);
+
 
 });
 

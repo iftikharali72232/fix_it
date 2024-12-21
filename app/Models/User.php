@@ -274,4 +274,9 @@ class User extends Authenticatable
 
     //     return json_decode($result, true);
     // }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }

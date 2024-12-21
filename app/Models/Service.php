@@ -18,7 +18,8 @@ class Service extends Model
         'estimated_time',
         'start_time',
         'service_cost',
-        'actual_cost'
+        'actual_cost',
+        'variables_json'
     ];
 
     public function category()

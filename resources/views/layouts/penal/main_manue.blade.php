@@ -97,44 +97,44 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#teams" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Teams</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="teams" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('users.index')}}">
+          <a href="{{route('teams.index')}}">
             <i class="bi bi-circle"></i><span>Teams List</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="{{route('users.create')}}">
+        <li>
+          <a href="{{route('teams.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#users" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Users</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="users" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('users.index')}}">
+          <a href="{{route('team_users.index')}}">
             <i class="bi bi-circle"></i><span>Users List</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="{{route('users.create')}}">
+        <li>
+          <a href="{{route('team_users.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#chats" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Chat</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="chats" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="{{route('users.index')}}">
             <i class="bi bi-circle"></i><span>Chat List</span>

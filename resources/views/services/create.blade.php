@@ -58,67 +58,99 @@
             <input type="text" class="form-control" id="service_cost" name="service_cost" step="0.01" required>
         </div>
 
-        <!-- Service Cost -->
+        <!-- Actual Cost -->
         <div class="mb-3">
             <label for="actual_cost" class="form-label">Actual Cost</label>
             <input type="text" class="form-control" id="actual_cost" name="actual_cost" step="0.01" required>
         </div>
 
-        <!-- Other Fields (Description, Thumbnail, etc.) -->
-
         <!-- Service Variables -->
         <h5>Service Variables</h5>
-        <div id="service-variables-container">
-            <div class="mb-3 d-flex">
-                <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
-                <button type="button" class="btn btn-success ms-2 add-service-variable">+</button>
-            </div>
-        </div>
+        <div id="service-variables-container"></div>
+        <button type="button" class="btn btn-success add-variable">Add Variable</button>
 
         <!-- Service Phases -->
         <h5>Service Phases</h5>
-        <div id="service-phases-container">
-            <div class="mb-3 d-flex">
-                <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
-                <button type="button" class="btn btn-success ms-2 add-service-phase">+</button>
-            </div>
-        </div>
+        <div id="service-phases-container"></div>
+        <button type="button" class="btn btn-success add-phase">Add Phase</button>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Create Service</button>
+        <button type="submit" class="btn btn-primary mt-3">Create Service</button>
     </form>
 </div>
+
 <!-- JavaScript for Adding Input Fields Dynamically -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    let variableIndex = 1;
+    let phaseIndex = 1;
+
     // Add Service Variables
-    document.querySelector('.add-service-variable').addEventListener('click', function() {
+    document.querySelector('.add-variable').addEventListener('click', function () {
         let container = document.getElementById('service-variables-container');
-        let newInput = `
-            <div class="mb-3 d-flex">
-                <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
-                <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+        let newVariable = `
+            <div class="mb-3">
+                <label class="form-label">Label</label>
+                <input type="text" class="form-control" name="service_variables[${variableIndex}][label]" placeholder="Enter label" required>
+
+                <label class="form-label">Type</label>
+                <div>
+                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="text"> Text
+                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="date"> Date
+                    <input type="radio" class="form-check-input variable-type dropdown-type" name="service_variables[${variableIndex}][type]" value="dropdown"> Dropdown
+                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="checkbox"> Checkbox
+                </div>
+                <textarea class="form-control mt-2 d-none dropdown-values" name="service_variables[${variableIndex}][dropdown_values]" placeholder="Enter comma-separated values for dropdown"></textarea>
+
+                <button type="button" class="btn btn-danger mt-2 remove-variable">Remove</button>
             </div>
         `;
-        container.insertAdjacentHTML('beforeend', newInput);
+        container.insertAdjacentHTML('beforeend', newVariable);
+        variableIndex++;
     });
 
     // Add Service Phases
-    document.querySelector('.add-service-phase').addEventListener('click', function() {
+    document.querySelector('.add-phase').addEventListener('click', function () {
         let container = document.getElementById('service-phases-container');
-        let newInput = `
-            <div class="mb-3 d-flex">
-                <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
-                <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+        let newPhase = `
+            <div class="mb-3">
+                <label class="form-label">Phase Name</label>
+                <input type="text" class="form-control" name="service_phases[${phaseIndex}]" placeholder="Enter phase name">
+                <button type="button" class="btn btn-danger mt-2 remove-phase">Remove</button>
             </div>
         `;
-        container.insertAdjacentHTML('beforeend', newInput);
+        container.insertAdjacentHTML('beforeend', newPhase);
+        phaseIndex++;
     });
 
-    // Remove Input Field
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-input')) {
-            e.target.parentElement.remove();
+    // Remove Variable Section
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-variable')) {
+            e.target.closest('.mb-3').remove();
+        }
+        if (e.target.classList.contains('remove-phase')) {
+            e.target.closest('.mb-3').remove();
+        }
+    });
+
+    // Ensure only one checkbox can be selected at a time within the same variable section
+    document.addEventListener('change', function (e) {
+        if (e.target.classList.contains('variable-type')) {
+            let parentDiv = e.target.closest('.mb-3');
+            let checkboxes = parentDiv.querySelectorAll('.variable-type');
+            checkboxes.forEach(checkbox => {
+                if (checkbox !== e.target) {
+                    checkbox.checked = false;
+                }
+            });
+
+            // Show/hide dropdown values textarea if "Dropdown" is selected
+            let dropdownTextarea = parentDiv.querySelector('.dropdown-values');
+            if (e.target.classList.contains('dropdown-type') && e.target.checked) {
+                dropdownTextarea.classList.remove('d-none');
+            } else if (dropdownTextarea) {
+                dropdownTextarea.classList.add('d-none');
+            }
         }
     });
 });

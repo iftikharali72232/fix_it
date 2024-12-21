@@ -81,118 +81,110 @@
             <label for="actual_cost" class="form-label">Actual Cost</label>
             <input type="text" class="form-control" id="actual_cost" name="actual_cost" value="{{ $service->actual_cost }}" required>
         </div>
-
         <!-- Service Variables -->
         <h5>Service Variables</h5>
         <div id="service-variables-container">
-            @if ($service->serviceVariables->isNotEmpty())
-                @foreach ($service->serviceVariables as $variable)
-                    <div class="mb-3 d-flex">
-                        <input type="text" class="form-control" name="service_variables[]" value="{{ $variable->variable }}" placeholder="Enter variable">
-                        <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+            @foreach (json_decode($service->variables_json, true) as $index => $variable)
+                <div class="mb-3">
+                    <label class="form-label">Label</label>
+                    <input type="text" class="form-control" name="service_variables[{{ $index }}][label]" value="{{ $variable['label'] }}" required>
+
+                    <label class="form-label">Type</label>
+                    <div>
+                        @foreach (['text', 'date', 'dropdown', 'checkbox'] as $type)
+                            <input type="radio" class="form-check-input variable-type {{ $type === 'dropdown' ? 'dropdown-type' : '' }}" 
+                                name="service_variables[{{ $index }}][type]" 
+                                value="{{ $type }}" 
+                                {{ $variable['type'] === $type ? 'checked' : '' }}> {{ ucfirst($type) }}
+                        @endforeach
                     </div>
-                @endforeach
-            @endif
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
-                    <button type="button" class="btn btn-success ms-2 add-service-variable">+</button>
+
+                    <textarea class="form-control mt-2 {{ $variable['type'] === 'dropdown' ? '' : 'd-none' }} dropdown-values" 
+                        name="service_variables[{{ $index }}][dropdown_values]" 
+                        placeholder="Enter comma-separated values for dropdown">{{ implode(',', (array)$variable['dropdown_values']) }}</textarea>
+
+                    <button type="button" class="btn btn-danger mt-2 remove-variable">Remove</button>
                 </div>
+            @endforeach
         </div>
+        <button type="button" class="btn btn-success add-variable">Add Variable</button>
 
         <!-- Service Phases -->
         <h5>Service Phases</h5>
         <div id="service-phases-container">
-            @if ($service->servicePhases->isNotEmpty())
-                @foreach ($service->servicePhases as $phase)
-                    <div class="mb-3 d-flex">
-                        <input type="text" class="form-control" name="service_phases[]" value="{{ $phase->phase }}" placeholder="Enter phase">
-                        <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
-                    </div>
-                @endforeach
-            @endif
+            @foreach ($service->servicePhases as $phase)
                 <div class="mb-3 d-flex">
-                    <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
-                    <button type="button" class="btn btn-success ms-2 add-service-phase">+</button>
+                    <input type="text" class="form-control" name="service_phases[]" value="{{ $phase->phase }}" placeholder="Enter phase">
+                    <button type="button" class="btn btn-danger ms-2 remove-phase">-</button>
                 </div>
-            
+            @endforeach
         </div>
+        <button type="button" class="btn btn-success add-phase">+ Add Phase</button>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Update Service</button>
+        <button type="submit" class="btn btn-primary mt-3">Update Service</button>
     </form>
 </div>
 
 <!-- JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    let variableIndex = {{ count(json_decode($service->variables_json, true)) }};
+    let phaseIndex = {{ count($service->servicePhases ?? []) }};
+
     // Add Service Variable
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('add-service-variable')) {
-            let container = document.getElementById('service-variables-container');
-            let newInput = `
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control" name="service_variables[]" placeholder="Enter variable">
-                    <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
+    document.querySelector('.add-variable').addEventListener('click', function () {
+        const container = document.getElementById('service-variables-container');
+        container.insertAdjacentHTML('beforeend', `
+            <div class="mb-3">
+                <label class="form-label">Label</label>
+                <input type="text" class="form-control" name="service_variables[${variableIndex}][label]" placeholder="Enter label" required>
+                <label class="form-label">Type</label>
+                <div>
+                    <input type="radio" name="service_variables[${variableIndex}][type]" value="text"> Text
+                    <input type="radio" name="service_variables[${variableIndex}][type]" value="date"> Date
+                    <input type="radio" name="service_variables[${variableIndex}][type]" value="dropdown"> Dropdown
+                    <input type="radio" name="service_variables[${variableIndex}][type]" value="checkbox"> Checkbox
                 </div>
-            `;
-            container.insertAdjacentHTML('beforeend', newInput);
-        }
+                <textarea class="form-control mt-2 d-none dropdown-values" name="service_variables[${variableIndex}][dropdown_values]" placeholder="Enter dropdown values"></textarea>
+                <button type="button" class="btn btn-danger mt-2 remove-variable">Remove</button>
+            </div>
+        `);
+        variableIndex++;
     });
 
     // Add Service Phase
+    document.querySelector('.add-phase').addEventListener('click', function () {
+        const container = document.getElementById('service-phases-container');
+        container.insertAdjacentHTML('beforeend', `
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
+                <button type="button" class="btn btn-danger ms-2 remove-phase">Remove</button>
+            </div>
+        `);
+        phaseIndex++;
+    });
+
+    // Remove Variable or Phase
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('add-service-phase')) {
-            let container = document.getElementById('service-phases-container');
-            let newInput = `
-                <div class="mb-3 d-flex">
-                    <input type="text" class="form-control" name="service_phases[]" placeholder="Enter phase">
-                    <button type="button" class="btn btn-danger ms-2 remove-input">-</button>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', newInput);
+        if (e.target.classList.contains('remove-variable') || e.target.classList.contains('remove-phase')) {
+            e.target.closest('.mb-3').remove();
         }
     });
 
-    // Remove Input Field
+    // Handle Thumbnail and Image Deletion (AJAX)
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-input')) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    // Delete Thumbnail
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('delete-thumbnail')) {
-            let url = e.target.getAttribute('data-url');
-            if (confirm('Are you sure you want to delete this thumbnail?')) {
-                fetch(url, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            e.target.parentElement.remove();
-                        } else {
-                            alert('Error deleting thumbnail.');
-                        }
-                    });
-            }
-        }
-    });
-
-    // Delete Image
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('delete-image')) {
-            let url = e.target.getAttribute('data-url');
-            if (confirm('Are you sure you want to delete this image?')) {
-                fetch(url, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            e.target.parentElement.remove();
-                        } else {
-                            alert('Error deleting image.');
-                        }
-                    });
-            }
+        if (e.target.classList.contains('delete-thumbnail') || e.target.classList.contains('delete-image')) {
+            const url = e.target.dataset.url;
+            fetch(url, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        e.target.closest('.position-relative').remove();
+                    } else {
+                        alert('Failed to delete');
+                    }
+                });
         }
     });
 });
