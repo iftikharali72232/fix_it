@@ -84,6 +84,7 @@
         <!-- Service Variables -->
         <h5>Service Variables</h5>
         <div id="service-variables-container">
+            <?php if($service->variables_json != "") { ?>
             @foreach (json_decode($service->variables_json, true) as $index => $variable)
                 <div class="mb-3">
                     <label class="form-label">Label</label>
@@ -106,6 +107,7 @@
                     <button type="button" class="btn btn-danger mt-2 remove-variable">Remove</button>
                 </div>
             @endforeach
+            <?php } ?>
         </div>
         <button type="button" class="btn btn-success add-variable">Add Variable</button>
 
@@ -129,7 +131,7 @@
 <!-- JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    let variableIndex = {{ count(json_decode($service->variables_json, true)) }};
+    let variableIndex = {{ count(($service->variables_json != "" ? json_decode($service->variables_json, true) : [])) }};
     let phaseIndex = {{ count($service->servicePhases ?? []) }};
 
     // Add Service Variable
