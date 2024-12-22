@@ -13,6 +13,7 @@ use App\Models\Notification;
 use App\Models\Shop;
 use App\Rules\ValidMobileNumber;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -394,6 +395,7 @@ class AuthController extends Controller
             ], 200);
         }
     }
+
     public function reset(Request $request){
         $attrs = $request->validate([
             'mobile'=> 'required',
@@ -652,5 +654,44 @@ class AuthController extends Controller
             }
     }
 
-    
+    public function updateUserData(Request $request, $id)
+    {
+        // Validate incoming data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'mobile' => 'required|string|max:15|unique:users,mobile,' . $id,
+            'password' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
+
+        // Find the user
+        $user = User::findOrFail($id);
+
+        // Update fields
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->mobile = $validated['mobile'];
+
+        // Hash password if provided
+        if ($request->filled('password')) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        // Handle image upload if provided
+        if(isset($_FILES['image']))
+        {
+            removeImages($user->image); 
+            $user->image = $this->upload($request);
+        }
+
+        // Save updated user
+        $user->save();
+
+        // Return response
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user
+        ]);
+    }
 }

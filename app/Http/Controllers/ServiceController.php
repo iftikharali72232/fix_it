@@ -194,7 +194,29 @@ class ServiceController extends Controller
     // Delete the service
     public function destroy($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::find($id);
+
+        if (!$service) {
+            return response()->json(['message' => 'Service not found'], 404);
+        }
+
+        // Delete the thumbnail if it exists
+        if ($service->thumbnail && file_exists(public_path('thumbnails/' . $service->thumbnail))) {
+            unlink(public_path('thumbnails/' . $service->thumbnail));
+        }
+
+        // Delete the images if they exist
+        if ($service->images) {
+            $images = json_decode($service->images);
+            foreach ($images as $image) {
+                $imagePath = public_path('images/' . $image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+        }
+
+        // Delete the service record
         $service->delete();
 
         return redirect()->route('services.index')->with('success', 'Service deleted successfully!');

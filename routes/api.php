@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\RequestController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\BannerController;
@@ -84,11 +85,11 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
 
     // User requests
     Route::prefix("/user")->group(function () {
-        Route::get("/user", [AuthController::class,"user"])->name('user');
+        Route::get("/detail", [AuthController::class,"user"])->name('user');
         Route::post("/logout", [AuthController::class,"logout"])->name('logout');
         Route::get('/deleteUser', [AuthController::class, 'delete'])->name('deleteUser');
         Route::get('/userList/{id}', [AuthController::class,'userList'])->name('userList');
-        Route::post('/updateUser', [AuthController::class,'updateUser'])->name('updateUser');
+        Route::post('/updateUser/{id}', [AuthController::class,'updateUserData'])->name('updateUserData');
         Route::post('/setLocation', [AuthController::class, 'setLocation'])->name('setLocation');
         Route::post('/updateProfileImage/{id}', [AuthController::class, 'updateProfileImage'])->name('updateProfileImage');
         Route::post('/cardDetail', [AuthController::class, 'cardDetail'])->name('cardDetail');
@@ -180,5 +181,7 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
 
     
     Route::post('/paymentStatus', [RequestController::class, 'paymentStatus'])->name('paymentStatus');
+
+    Route::apiResource('services', ServiceController::class);
 
 });
