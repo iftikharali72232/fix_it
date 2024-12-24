@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceOrderController extends Controller
 {
     public function create(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'service_id' => 'required|integer',
             'variables_json' => 'required|json',
             'service_cost' => 'required|numeric',
@@ -20,14 +21,24 @@ class ServiceOrderController extends Controller
             'discount' => 'nullable|numeric',
         ]);
 
-        $order = ServiceOrder::create($request->all());
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not authenticated.',
+            ], 401);
+        }
+
+        $data['customer_id'] = $user->id;
+        $order = ServiceOrder::create($data);
 
         return response()->json([
             'success' => true,
             'message' => 'Service order created successfully.',
             'data' => $order,
-        ], 200);
+        ], 201);
     }
+
     public function createOrder(Request $request)
     {
         $serviceId = $request->input('service_id');

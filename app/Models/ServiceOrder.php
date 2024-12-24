@@ -18,6 +18,7 @@ class ServiceOrder extends Model
         'service_date',
         'tax',
         'discount',
+        'customer_id',
         'status'
     ];
 
