@@ -21,11 +21,11 @@
             <span>Order List</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="{{route('category.create')}}">
+        <li>
+          <a href="{{route('service_order.create')}}">
             <i class="bi bi-circle"></i><span>{{trans('lang.service_create')}}</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <!-- <li class="nav-item">
@@ -148,20 +148,37 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#sellers" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#offers" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-sliders"></i><span>Offers</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      </a>
+      <ul id="offers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('service_offers.index')}}">
+            <i class="bi bi-circle"></i><span>offer List</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{route('service_offers.create')}}">
+            <i class="bi bi-circle"></i><span>offer Create</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#library" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Library</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="sellers" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <!-- <li>
-          <a href="{{route('users.index')}}">
-            <i class="bi bi-circle"></i><span>Teams List</span>
+      <ul id="library" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('articles.index')}}">
+            <i class="bi bi-circle"></i><span>Article List</span>
           </a>
-        </li> -->
-        <!-- <li>
-          <a href="{{route('users.create')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.user_create')}}</span>
+        </li>
+        <li>
+          <a href="{{route('articles.create')}}">
+            <i class="bi bi-circle"></i><span>Article Create</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
 

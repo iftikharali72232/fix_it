@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\ServiceOrderController;
 use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\BannerController;
@@ -141,23 +142,27 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     Route::get('/paymentMethodList', [PaymentController::class, 'list'])->name('paymentMethodList');
 
     //order apis
-    Route::post('/createOrder', [OrderController::class, 'create'])->name('createOrder');
-    Route::post('/manualOrder', [OrderController::class, 'manualOrder'])->name('manualOrder');
-    Route::get('/orderList', [OrderController::class, 'orderList'])->name('orderList');
-    Route::get('/getOrder/{id}', [OrderController::class, 'get'])->name('getOrder');
-    Route::post('/orderPaymentStatus', [OrderController::class, 'orderPaymentStatus'])->name('orderPaymentStatus');
-    Route::get("/orderStatus/{id}", [OrderController::class, 'orderStatus'])->name('orderStatus');
-    Route::get("/orderListByUserId", [OrderController::class, 'orderListByUserId'])->name('orderListByUserId');
-    Route::get("/notifiOrders", [OrderController::class, 'notifiOrders'])->name('notifiOrders');
-    Route::get("/recentOrders", [OrderController::class, 'recentOrders'])->name('recentOrders');
-    Route::post("/readNotification/{id}", [OrderController::class, 'readNotification'])->name('readNotification');
-    Route::get("/sellerTotalOrders", [OrderController::class, 'sellerTotalOrders'])->name('sellerTotalOrders');
-    Route::post("/changeOrderStatus/{status}", [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
-    Route::get("/recentOrderItems", [OrderController::class, 'recentOrderItems'])->name('recentOrderItems');
-    Route::get("/manualOrderSellers", [OrderController::class, 'manualOrderSellers'])->name('manualOrderSellers');
-    Route::post("/manualOrderProcess", [OrderController::class, 'manualOrderProcess'])->name('manualOrderProcess');
-    Route::get("/buyerManualOrderNotify", [OrderController::class, 'buyerManualOrderNotify'])->name('buyerManualOrderNotify');
-    Route::get("/allOrderProducts", [OrderController::class, 'allOrderProducts'])->name('allOrderProducts');
+    Route::prefix("/order")->group(function () {
+        Route::post('/create', [ServiceOrderController::class, 'create'])->name('createOrder');
+    });
+        Route::post('/create', [OrderController::class, 'create'])->name('createOrder');
+        Route::post('/manualOrder', [OrderController::class, 'manualOrder'])->name('manualOrder');
+        Route::get('/orderList', [OrderController::class, 'orderList'])->name('orderList');
+        Route::get('/getOrder/{id}', [OrderController::class, 'get'])->name('getOrder');
+        Route::post('/orderPaymentStatus', [OrderController::class, 'orderPaymentStatus'])->name('orderPaymentStatus');
+        Route::get("/orderStatus/{id}", [OrderController::class, 'orderStatus'])->name('orderStatus');
+        Route::get("/orderListByUserId", [OrderController::class, 'orderListByUserId'])->name('orderListByUserId');
+        Route::get("/notifiOrders", [OrderController::class, 'notifiOrders'])->name('notifiOrders');
+        Route::get("/recentOrders", [OrderController::class, 'recentOrders'])->name('recentOrders');
+        Route::post("/readNotification/{id}", [OrderController::class, 'readNotification'])->name('readNotification');
+        Route::get("/sellerTotalOrders", [OrderController::class, 'sellerTotalOrders'])->name('sellerTotalOrders');
+        Route::post("/changeOrderStatus/{status}", [OrderController::class, 'changeOrderStatus'])->name('changeOrderStatus');
+        Route::get("/recentOrderItems", [OrderController::class, 'recentOrderItems'])->name('recentOrderItems');
+        Route::get("/manualOrderSellers", [OrderController::class, 'manualOrderSellers'])->name('manualOrderSellers');
+        Route::post("/manualOrderProcess", [OrderController::class, 'manualOrderProcess'])->name('manualOrderProcess');
+        Route::get("/buyerManualOrderNotify", [OrderController::class, 'buyerManualOrderNotify'])->name('buyerManualOrderNotify');
+        Route::get("/allOrderProducts", [OrderController::class, 'allOrderProducts'])->name('allOrderProducts');
+    
 
     // Chat APIS
     Route::post('/sendMessage', [MessageController::class, 'sendMessage'])->name('sendMessage');

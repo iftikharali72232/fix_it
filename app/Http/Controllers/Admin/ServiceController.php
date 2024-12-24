@@ -57,7 +57,9 @@ class ServiceController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePaths[] = $image->store('images', 'public');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images'), $imageName);
+                $imagePaths[] = $imageName;
             }
         }
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BannerController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethod;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceOfferController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\WalletController;
@@ -90,6 +93,23 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('teams', TeamController::class);
 
     Route::resource('team_users', TeamUserController::class);
+
+    Route::resource('articles', ArticleController::class);
+
+
+    // Display the service order creation form
+    Route::get('/service_order/create', [ServiceOrderController::class, 'create'])->name('service_order.create');
+
+    // Handle AJAX request to fetch service data
+    Route::get('/fetch-service-data', [ServiceOrderController::class, 'fetchServiceData'])->name('fetch-service-data');
+
+    // Store the service order
+    Route::post('/service_order', [ServiceOrderController::class, 'store'])->name('service_order.store');
+
+    Route::post('/service_order/store', [ServiceOrderController::class, 'store'])->name('service_order.store');
+
+    Route::post('/articles/delete-image', [ArticleController::class, 'deleteImage'])->name('articles.deleteImage');
+    Route::resource('service_offers', ServiceOfferController::class);
 
 
 });
