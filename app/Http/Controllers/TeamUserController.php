@@ -36,7 +36,7 @@ class TeamUserController extends Controller
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:6',
             'team_id' => 'required|exists:teams,id',
         ]);
 
