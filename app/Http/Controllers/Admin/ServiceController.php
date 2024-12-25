@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\ServiceOffer;
 
 class ServiceController extends Controller
 {
@@ -27,7 +28,9 @@ class ServiceController extends Controller
         if (!$service) {
             return response()->json(['message' => 'Service not found'], 404);
         }
-
+        $service->offer = ServiceOffer::where('service_id', $id)->where('status', 1)->first();
+        $service->thumbnail_base_url = public_path('thumbnails');
+        $service->images_base_url = public_path('images');
         return response()->json($service);
     }
 

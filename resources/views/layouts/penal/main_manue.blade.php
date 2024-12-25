@@ -11,19 +11,19 @@
     </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#Category" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#order" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Orders</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="Category" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="order" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('category.index')}}">
+          <a href="{{route('service_orders.index')}}">
             <i class="bi bi-circle"></i>
             <span>Order List</span>
           </a>
         </li>
         <li>
-          <a href="{{route('service_order.create')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.service_create')}}</span>
+          <a href="{{route('service_orders.create')}}">
+            <i class="bi bi-circle"></i><span>Order Create</span>
           </a>
         </li>
       </ul>
@@ -46,20 +46,20 @@
       </ul>
     </li> -->
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#shop" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#customer" data-bs-toggle="collapse" href="#">
         <i class="bi bi-sliders"></i><span>Customers</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
-      <ul id="shop" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="customer" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('request.index')}}">
+          <a href="{{route('customers.index')}}">
             <i class="bi bi-circle"></i><span>Customer list</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="{{route('request.create')}}">
-            <i class="bi bi-circle"></i><span>{{trans('lang.request_tracking')}}</span>
+        <li>
+          <a href="{{route('customers.create')}}">
+            <i class="bi bi-circle"></i><span>Customer Create</span>
           </a>
-        </li> -->
+        </li>
       </ul>
     </li>
     <li class="nav-item">

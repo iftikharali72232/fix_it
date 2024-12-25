@@ -16,4 +16,8 @@ class ServiceOffer extends Model
         'discount',
         'status',
     ];
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

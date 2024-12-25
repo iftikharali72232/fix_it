@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Service ID</th>
+                <th>Service Name</th>
                 <th>Image</th>
                 <th>Discount</th>
                 <th>Status</th>
@@ -22,8 +22,8 @@
             @foreach ($serviceOffers as $offer)
                 <tr>
                     <td>{{ $offer->id }}</td>
-                    <td>{{ $offer->service_id }}</td>
-                    <td><img src="{{ asset('storage/' . $offer->image) }}" alt="Offer Image" width="100"></td>
+                    <td>{{ $offer->service->service_name ?? 'N/A' }}</td>
+                    <td><img src="{{ asset('images/' . $offer->image) }}" alt="" width="100"></td>
                     <td>{{ $offer->discount }}</td>
                     <td>{{ $offer->status ? 'Active' : 'Inactive' }}</td>
                     <td>

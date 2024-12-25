@@ -7,15 +7,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class TeamUserController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::with('team')->where('user_type', 2)->get();
-        return view('team_users.index', compact('users'));
+        $users = User::with('team')->where('user_type', 1)->get();
+        return view('customers.index', compact('users'));
     }
 
     /**
@@ -23,8 +23,8 @@ class TeamUserController extends Controller
      */
     public function create()
     {
-        $teams = Team::all();
-        return view('team_users.create', compact('teams'));
+        // $teams = Team::all();
+        return view('customers.create');
     }
 
     /**
@@ -37,7 +37,7 @@ class TeamUserController extends Controller
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
-            'team_id' => 'required|exists:teams,id',
+            // 'team_id' => 'required|exists:teams,id',
         ]);
 
         User::create([
@@ -45,12 +45,12 @@ class TeamUserController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'team_id' => $request->team_id,
-            'user_type' => 2,
+            // 'team_id' => $request->team_id,
+            'user_type' => 1,
             'status' => 1
         ]);
 
-        return redirect()->route('team_users.index')->with('success', 'User created successfully.');
+        return redirect()->route('customers.index')->with('success', 'User created successfully.');
     }
 
     /**
@@ -59,8 +59,8 @@ class TeamUserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $teams = Team::all();
-        return view('team_users.edit', compact('user', 'teams'));
+        // $teams = Team::all();
+        return view('customers.edit', compact('user'));
     }
 
 
@@ -74,7 +74,7 @@ class TeamUserController extends Controller
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'team_id' => 'required|exists:teams,id',
+            // 'team_id' => 'required|exists:teams,id',
         ]);
 
         if ($request->filled('password')) {
@@ -82,7 +82,7 @@ class TeamUserController extends Controller
         }
         $user->update($validatedData);
 
-        return redirect()->route('team_users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('customers.index')->with('success', 'User updated successfully.');
     }
 
 
@@ -92,6 +92,6 @@ class TeamUserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('team_users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('customers.index')->with('success', 'User deleted successfully.');
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SuccessController;
 use App\Http\Controllers\LangController;
@@ -93,12 +94,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('teams', TeamController::class);
 
     Route::resource('team_users', TeamUserController::class);
+    Route::resource('customers', CustomerController::class);
 
     Route::resource('articles', ArticleController::class);
 
 
     // Display the service order creation form
-    Route::get('/service_order/create', [ServiceOrderController::class, 'create'])->name('service_order.create');
+    
+    Route::resource('service_orders', ServiceOrderController::class);
 
     // Handle AJAX request to fetch service data
     Route::get('/fetch-service-data', [ServiceOrderController::class, 'fetchServiceData'])->name('fetch-service-data');
@@ -110,6 +113,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/articles/delete-image', [ArticleController::class, 'deleteImage'])->name('articles.deleteImage');
     Route::resource('service_offers', ServiceOfferController::class);
+    Route::post('/service_offers/{id}/delete-image', [ServiceOfferController::class, 'deleteImage'])->name('service_offers.delete_image');
+
 
 
 });

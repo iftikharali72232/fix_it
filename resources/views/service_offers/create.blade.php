@@ -6,8 +6,13 @@
     <form action="{{ route('service_offers.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-            <label for="service_id" class="form-label">Service ID</label>
-            <input type="text" class="form-control" id="service_id" name="service_id" required>
+            <label for="service_id" class="form-label">Service</label>
+            <select class="form-control" id="service_id" name="service_id" required>
+                <option value="" disabled selected>Select a service</option>
+                @foreach($services as $service)
+                    <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>

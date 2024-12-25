@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\Location;
+use App\Http\Controllers\ServiceOfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -188,5 +189,7 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     Route::post('/paymentStatus', [RequestController::class, 'paymentStatus'])->name('paymentStatus');
 
     Route::apiResource('services', ServiceController::class);
+
+    Route::get('/offer/list', [ServiceOfferController::class, 'offerList'])->name('offerList');
 
 });

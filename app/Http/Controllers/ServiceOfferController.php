@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\ServiceOffer;
 use Illuminate\Support\Facades\Storage;
@@ -9,14 +10,17 @@ class ServiceOfferController extends Controller
 {
     public function index()
     {
-        $serviceOffers = ServiceOffer::all();
+        $serviceOffers = ServiceOffer::with('service')->get(); // Fetch offers with related service data
         return view('service_offers.index', compact('serviceOffers'));
     }
 
+
     public function create()
     {
-        return view('service_offers.create');
+        $services = Service::all(); // Fetch all services from the database
+        return view('service_offers.create', compact('services')); // Pass data to the view
     }
+    
 
     public function store(Request $request)
     {
@@ -27,7 +31,9 @@ class ServiceOfferController extends Controller
             'status' => 'required|boolean',
         ]);
 
-        $imagePath = $request->file('image')->store('service_offers', 'public');
+        $image = $request->file('image');
+        $imagePath = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images'), $imagePath);
 
         ServiceOffer::create([
             'service_id' => $validatedData['service_id'],
@@ -41,8 +47,13 @@ class ServiceOfferController extends Controller
 
     public function edit(ServiceOffer $serviceOffer)
     {
-        return view('service_offers.edit', compact('serviceOffer'));
+        // Retrieve all services to populate the dropdown
+        $services = Service::all();
+
+        // Pass the services and the current service offer to the view
+        return view('service_offers.edit', compact('serviceOffer', 'services'));
     }
+
 
     public function update(Request $request, ServiceOffer $serviceOffer)
     {
@@ -54,10 +65,14 @@ class ServiceOfferController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image
-            Storage::disk('public')->delete($serviceOffer->image);
+            if ($serviceOffer->image && file_exists(public_path('images/'.$serviceOffer->image))) {
+                unlink(public_path('images/'.$serviceOffer->image));
+            }
             // Upload new image
-            $serviceOffer->image = $request->file('image')->store('service_offers', 'public');
+            $image = $request->file('image');
+            $imagePath = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images'), $imagePath);
+            $serviceOffer->image = $imagePath;
         }
 
         $serviceOffer->update([
@@ -72,9 +87,43 @@ class ServiceOfferController extends Controller
 
     public function destroy(ServiceOffer $serviceOffer)
     {
-        Storage::disk('public')->delete($serviceOffer->image);
+        if($serviceOffer->image && file_exists(public_path('images/' . $serviceOffer->image))){
+            // Delete old image
+            unlink(public_path('images/' . $serviceOffer->image));
+
+        }
         $serviceOffer->delete();
 
         return redirect()->route('service_offers.index')->with('success', 'Service Offer deleted successfully!');
     }
+    public function deleteImage($id)
+    {
+        $serviceOffer = ServiceOffer::findOrFail($id);
+        // print_r($serviceOffer->image); exit;
+        if ($serviceOffer->image) {
+            if($serviceOffer->image && file_exists(public_path('images/' . $serviceOffer->image))){
+                // Delete old image
+                unlink(public_path('images/' . $serviceOffer->image));
+
+            }
+            $serviceOffer->update(['image' => '']);
+
+            return response()->json(['success' => true, 'message' => 'Image deleted successfully.']);
+            
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Failed.']);
+
+    }
+
+    function offerList()
+    {
+        $serviceOffers = ServiceOffer::where('status', 1)->get();
+        $serviceOffers['image_base_url'] = public_path('images');
+        return response()->json([
+            'status' => 1,
+            'data' => $serviceOffers
+        ]);
+    }
+
 }
