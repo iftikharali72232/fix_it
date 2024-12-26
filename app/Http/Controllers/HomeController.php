@@ -106,8 +106,8 @@ class HomeController extends Controller
                 'order_id' => $order->id,
                 'total' => $order->total,
                 'status' => $order->order_status,
-                'user_name' => $user->name,
-                'seller_name' => $seller->name,
+                'user_name' => $user->name ?? "",
+                'seller_name' => $seller->name ?? "",
                 // Add other relevant order details here
             ];
         }
