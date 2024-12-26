@@ -38,4 +38,9 @@ class Service extends Model
         return $this->hasMany(ServicePhase::class, 'service_id');
     }
 
+    public function offers()
+    {
+        return $this->hasMany(ServiceOffer::class, 'service_id', 'id');
+    }
+
 }

@@ -20,4 +20,9 @@ class ServiceOffer extends Model
     {
         return $this->belongsTo(Service::class);
     }
+    public function serviceOffer()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id');
+    }
+
 }

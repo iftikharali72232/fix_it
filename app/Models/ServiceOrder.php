@@ -25,4 +25,14 @@ class ServiceOrder extends Model
     protected $casts = [
         'variables_json' => 'array',
     ];
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'customer_id', 'id');
+    }
+
 }

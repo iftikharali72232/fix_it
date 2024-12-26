@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\ServiceOffer;
 use App\Models\ServiceOrder;
+use App\Models\ServicePhase;
 use Illuminate\Http\Request;
 
 class ServiceOrderController extends Controller
@@ -40,15 +42,27 @@ class ServiceOrderController extends Controller
 
     public function show($id)
     {
-        // Find the service order by ID
-        $serviceOrder = ServiceOrder::find($id);
+        $serviceOrder = ServiceOrder::with(['service', 'customer'])
+            ->where('id', $id)
+            ->firstOrFail();
 
-        if (!$serviceOrder) {
-            return redirect()->route('service_orders.index')->with('error', 'Service Order not found.');
-        }
+        // Decode variables_json
+        $variables = $serviceOrder->variables_json ? json_decode($serviceOrder->variables_json, true) : [];
 
-        return view('service_orders.show', compact('serviceOrder'));
+        // Fetch service phases
+        $phases = ServicePhase::where('service_id', $serviceOrder->service_id)
+        ->get();
+
+        // Check for an active offer
+        $activeOffer = ServiceOffer::where('service_id', $serviceOrder->service_id)
+            ->where('status', 1)
+            ->first();
+        // print_r($phases); exit;
+        return view('service_orders.show', compact('serviceOrder', 'variables', 'activeOffer', 'phases'));
     }
+
+    
+
 
     // Fetch service data based on selected service
     public function fetchServiceData(Request $request)

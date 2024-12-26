@@ -14,7 +14,7 @@ class ServiceOrderController extends Controller
     {
         $data = $request->validate([
             'service_id' => 'required|integer',
-            'variables_json' => 'required|json',
+            'variables_json' => 'required',
             'service_cost' => 'required|numeric',
             'service_date' => 'required|date',
             'tax' => 'nullable|numeric',
