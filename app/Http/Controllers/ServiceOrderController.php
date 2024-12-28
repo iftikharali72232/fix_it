@@ -5,6 +5,8 @@ use App\Models\Service;
 use App\Models\ServiceOffer;
 use App\Models\ServiceOrder;
 use App\Models\ServicePhase;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ServiceOrderController extends Controller
@@ -39,7 +41,28 @@ class ServiceOrderController extends Controller
 
         return view('service_order.create', compact('services', 'serviceData', 'variables'));
     }
-
+    public function updateOrder(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:service_orders,id',
+            'team_id' => 'required|exists:teams,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+    
+        $order = ServiceOrder::find($request->order_id);
+    
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+    
+        $order->team_id = $request->team_id;
+        $order->team_user_id = $request->user_id;
+        $order->status = 1;
+        $order->save();
+    
+        return response()->json(['success' => 'Order updated successfully']);
+    }
+    
     public function show($id)
     {
         $serviceOrder = ServiceOrder::with(['service', 'customer'])
@@ -57,11 +80,25 @@ class ServiceOrderController extends Controller
         $activeOffer = ServiceOffer::where('service_id', $serviceOrder->service_id)
             ->where('status', 1)
             ->first();
-        // print_r($phases); exit;
-        return view('service_orders.show', compact('serviceOrder', 'variables', 'activeOffer', 'phases'));
+        $service = Service::where('id', $serviceOrder->service_id)->first();
+        $teams = Team::where('category_id', $service->category_id)->get();
+        $users = $serviceOrder->team_id > 0 ? User::where('team_id', $serviceOrder->team_id)->get() : [];
+        // echo "<pre>";print_r($teams); exit;
+        return view('service_orders.show', compact('serviceOrder', 'variables', 'activeOffer', 'phases', 'teams', 'users'));
     }
 
-    
+    public function getTeamUsers($id)
+    {
+        $team = Team::find($id);
+
+        if (!$team) {
+            return response()->json(['error' => 'Team not found'], 404);
+        }
+
+        $users = User::where('team_id', $id)->get(); // Assuming a one-to-many relationship exists between Team and User
+        return response()->json($users);
+    }
+
 
 
     // Fetch service data based on selected service

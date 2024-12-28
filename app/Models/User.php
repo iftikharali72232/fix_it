@@ -34,6 +34,7 @@ class User extends Authenticatable
         'bank_id',
         'bank_account',
         'device_token',
+        'team_id',
         'is_available'
     ];
 

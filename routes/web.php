@@ -114,7 +114,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/articles/delete-image', [ArticleController::class, 'deleteImage'])->name('articles.deleteImage');
     Route::resource('service_offers', ServiceOfferController::class);
     Route::post('/service_offers/{id}/delete-image', [ServiceOfferController::class, 'deleteImage'])->name('service_offers.delete_image');
-
+    Route::get('/team/{id}/users', [ServiceOrderController::class, 'getTeamUsers'])->name('team.users');
+    Route::post('/service-order/update', [ServiceOrderController::class, 'updateOrder'])->name('service-order.update');
 
 
 });

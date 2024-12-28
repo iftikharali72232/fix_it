@@ -46,7 +46,6 @@
                     </td>
                     <td>
                         <a href="{{ route('service_orders.show', $order->id) }}" class="btn btn-info btn-sm">View</a>
-                        <a href="{{ route('service_orders.edit', $order->id) }}" class="btn btn-primary btn-sm">Action</a>
                     </td>
                 </tr>
             @endforeach

@@ -25,10 +25,41 @@
                 </span>
             </p>
             @if ($activeOffer)
-                <p><strong>Active Offer:</strong> {{ $activeOffer->discount }}% Off</p>
+                <p><strong>Active Offer:</strong> {{ $activeOffer->discount }} Off</p>
             @else
                 <p><strong>Active Offer:</strong> No active offers</p>
             @endif
+
+            <div class="mb-3">
+    <label class="form-label">Teams</label>
+    <select class="form-select" id="team" onchange="team_users();" {{ $serviceOrder->team_id > 0 && $serviceOrder->team_user_id > 0 ? '' : 'disabled' }}>
+        <option value="0" {{ $serviceOrder->team_id == 0 ? 'selected' : '' }}>SELECT</option>
+        @foreach($teams as $team)
+            <option value="{{ $team->id }}" {{ $serviceOrder->team_id == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
+        @endforeach
+    </select>
+</div>
+<div class="mb-3" id="team_users">
+    @if ($serviceOrder->team_id > 0 && $serviceOrder->team_user_id > 0)
+        <label class="form-label">Select a User</label>
+        <select class="form-select" name="user_id" id="user_id">
+            @foreach($users as $user) {{-- Pass users associated with the selected team --}}
+                <option value="{{ $user->id }}" {{ $serviceOrder->team_user_id == $user->id ? 'selected' : '' }}>
+                    {{ $user->name }} ({{ $user->email }})
+                </option>
+            @endforeach
+        </select>
+    @endif
+</div>
+
+@if (!($serviceOrder->team_id > 0 && $serviceOrder->team_user_id > 0))
+    <script>
+        document.getElementById('team').disabled = false;
+        document.getElementById('team_users').innerHTML = '<p class="text-muted">Please select a team to load users.</p>';
+    </script>
+@endif
+
+            <button onclick="update();">Confirm</button>
         </div>
     </div>
 
@@ -103,4 +134,87 @@
         </div>
     </div>
 </div>
+<script>
+    function team_users() {
+        const teamId = document.getElementById('team').value;
+
+        // Clear previous users
+        const usersContainer = document.getElementById('team_users');
+        usersContainer.innerHTML = '<p class="text-muted">Loading users...</p>';
+
+        const BASE_URL = "{{ url('/') }}";
+        console.log(BASE_URL); // Outputs the base URL
+
+        // Make AJAX request to fetch team users
+        fetch(BASE_URL+`/team/${teamId}/users`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(users => {
+                if (users.length > 0) {
+                    let userHtml = `
+                        <label class="form-label">Select a User</label>
+                        <select class="form-select" name="user_id" id="user_id">
+                            <option selected disabled>SELECT</option>`;
+                    users.forEach(user => {
+                        userHtml += `<option value="${user.id}">${user.name} (${user.email})</option>`;
+                    });
+                    userHtml += '</select>';
+                    usersContainer.innerHTML = userHtml;
+                } else {
+                    usersContainer.innerHTML = '<p class="text-muted">No users found for this team.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching team users:', error);
+                usersContainer.innerHTML = '<p class="text-danger">Failed to load users. Please try again.</p>';
+            });
+    }
+function update() {
+    const teamId = document.getElementById('team').value;
+    const userId = document.getElementById('user_id')?.value || "0"; // Default to "0" if user_id is not selected
+    const orderId = "{{ $serviceOrder->id }}"; // Get the order ID
+
+    if (teamId === "0" || userId === "0") {
+        alert("Please select both a valid team and a user.");
+        return;
+    }
+
+    const BASE_URL = "{{ url('/') }}";
+
+    // Send the POST request
+    fetch(BASE_URL + '/service-order/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': "{{ csrf_token() }}" // Include CSRF token
+        },
+        body: JSON.stringify({
+            order_id: orderId,
+            team_id: teamId,
+            user_id: userId
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update the order.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.success || 'Order updated successfully!');
+        location.reload(); // Reload to reflect changes
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update the order. Please try again.');
+    });
+}
+
+
+</script>
+
 @endsection
