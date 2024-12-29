@@ -122,7 +122,7 @@ class ServiceOfferController extends Controller
         $serviceOffers['image_base_url'] = public_path('images');
         return response()->json([
             'status' => 1,
-            'data' => $serviceOffers
+            'data' => json_decode(json_encode($serviceOffers), true)
         ]);
     }
 
