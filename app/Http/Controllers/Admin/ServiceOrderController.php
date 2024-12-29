@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\ServiceOrder;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,4 +48,25 @@ class ServiceOrderController extends Controller
         return response()->json($service);
     }
 
+    public function userOrders()
+    {
+        $user = auth()->user();
+        $orders = ServiceOrder::where('customer_id', $user->id)->get();
+
+        $res = [];
+        foreach($orders as $order)
+        {
+            $order['service'] = Service::where('id', $order->service_id)->first();
+            $res[] = $order;
+        }
+        return response()->json($res);
+    }
+    public function singleOrder($id)
+    {
+        $order = ServiceOrder::find($id);
+        $order['team'] = Team::find($order->team_id);
+        $order['team_user'] = User::find($order->team_user_id);
+        $order['service'] = Service::with(['category', 'servicePhases'])->find($order->service_id);
+        return response()->json($order);
+    }
 }

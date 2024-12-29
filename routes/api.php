@@ -145,6 +145,8 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     //order apis
     Route::prefix("/order")->group(function () {
         Route::post('/create', [ServiceOrderController::class, 'create'])->name('createOrder');
+        Route::get('/userOrders', [ServiceOrderController::class, 'userOrders'])->name('userOrders');
+        Route::get('/singleOrder/{id}', [ServiceOrderController::class, 'singleOrder'])->name('singleOrder');
     });
         Route::post('/create', [OrderController::class, 'create'])->name('createOrder');
         Route::post('/manualOrder', [OrderController::class, 'manualOrder'])->name('manualOrder');
@@ -189,6 +191,8 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     Route::post('/paymentStatus', [RequestController::class, 'paymentStatus'])->name('paymentStatus');
 
     Route::apiResource('services', ServiceController::class);
+    Route::get("/recentServices", [ServiceController::class, 'recentServices'])->name('recentServices');
+    
 
     Route::get('/offer/list', [ServiceOfferController::class, 'offerList'])->name('offerList');
 

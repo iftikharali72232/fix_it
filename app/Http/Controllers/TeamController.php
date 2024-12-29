@@ -2,7 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Service;
+use App\Models\ServiceOrder;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -63,5 +66,18 @@ class TeamController extends Controller
         $team = Team::findOrFail($id);
         $team->delete();
         return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
+    }
+
+    public function workshopDashboard()
+    {
+        $user = auth()->user();
+        $orders = ServiceOrder::where('team_user_id', $user->id)->where('status', 1)->get();
+
+        $res = [];
+        foreach($orders as $key => $order)
+        {
+            $order->client_name = User::where('id', $order->customer_id)->pluck('name');
+            $order->service_name = Service::where('id', $order->service_id)->pluck('service_name');
+        }
     }
 }

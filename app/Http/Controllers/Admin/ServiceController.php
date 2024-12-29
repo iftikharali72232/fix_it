@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\Service;
 use App\Models\ServiceOffer;
+use App\Models\ServiceOrder;
 
 class ServiceController extends Controller
 {
@@ -177,5 +178,17 @@ class ServiceController extends Controller
         $service->delete();
 
         return response()->json(['message' => 'Service deleted successfully']);
+    }
+    function recentServices()
+    {
+        $user = auth()->user();
+        $serviceIds = ServiceOrder::where('customer_id', $user->id)->pluck('service_id');
+        $serviceIds = array_unique(json_decode(json_encode($serviceIds), true));
+
+        $services = Service::with(['category', 'servicePhases'])
+            ->whereIn('id', $serviceIds)
+            ->get();
+
+        return response()->json($services);
     }
 }
