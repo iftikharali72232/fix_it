@@ -51,7 +51,12 @@ class ServiceOrderController extends Controller
     public function userOrders()
     {
         $user = auth()->user();
-        $orders = ServiceOrder::where('customer_id', $user->id)->get();
+        if($user->user_type == 1)
+        {
+            $orders = ServiceOrder::where('customer_id', $user->id)->get();
+        } else {
+            $orders = ServiceOrder::where('team_user_id', $user->id)->get();
+        }
 
         $res = [];
         foreach($orders as $order)
