@@ -12,7 +12,8 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#order" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Orders</span><i class="bi bi-chevron-down margin-s-auto"></i>
+        <i class="icon-container"><img src="{{asset('img/orders-icon.png')}}" alt=""></i>
+        <span>Orders</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="order" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -47,7 +48,8 @@
     </li> -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#customer" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Customers</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/customers-icon.png')}}" alt="" ></i>
+      <span>Customers</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="customer" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -81,7 +83,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#service" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Services</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/services-icon.png')}}" alt=""></i>
+      <span>Services</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="service" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -98,7 +101,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#teams" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Teams</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/team-icon.png')}}" alt=""></i>
+      <span>Teams</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="teams" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -115,7 +119,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#users" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Users</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/users-icon.png')}}" alt=""></i>
+      <span>Users</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="users" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -132,7 +137,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#chats" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Chat</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/chat-icon.png')}}" alt="" ></i>
+      <span>Chat</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="chats" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -166,7 +172,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#library" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sliders"></i><span>Library</span><i class="bi bi-chevron-down margin-s-auto"></i>
+      <i class="icon-container"><img src="{{asset('img/library-icon.png')}}" alt="" ></i>
+      <span>Library</span><i class="bi bi-chevron-down margin-s-auto"></i>
       </a>
       <ul id="library" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
