@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\OrderPhase;
 use App\Models\Service;
 use App\Models\ServiceOffer;
 use App\Models\ServiceOrder;
@@ -75,7 +76,10 @@ class ServiceOrderController extends Controller
         // Fetch service phases
         $phases = ServicePhase::where('service_id', $serviceOrder->service_id)
         ->get();
-
+        foreach($phases as $pk => $phase)
+        {
+            $phases[$pk]['response'] = OrderPhase::where('order_id', $id)->where('phase_id', $phase->id)->first();
+        }
         // Check for an active offer
         $activeOffer = ServiceOffer::where('service_id', $serviceOrder->service_id)
             ->where('status', 1)
@@ -83,7 +87,7 @@ class ServiceOrderController extends Controller
         $service = Service::where('id', $serviceOrder->service_id)->first();
         $teams = Team::where('category_id', $service->category_id)->get();
         $users = $serviceOrder->team_id > 0 ? User::where('team_id', $serviceOrder->team_id)->get() : [];
-        // echo "<pre>";print_r($teams); exit;
+        // echo "<pre>";print_r($phases); exit;
         return view('service_orders.show', compact('serviceOrder', 'variables', 'activeOffer', 'phases', 'teams', 'users'));
     }
 
@@ -148,4 +152,18 @@ class ServiceOrderController extends Controller
 
         return redirect()->route('service_order.create')->with('success', 'Service order created successfully');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|integer|in:0,1,2,3,4',
+        ]);
+
+        $serviceOrder = ServiceOrder::findOrFail($id);
+        $serviceOrder->status = $request->status;
+        $serviceOrder->save();
+
+        return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
 }

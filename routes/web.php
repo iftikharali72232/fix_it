@@ -20,6 +20,7 @@ use App\Http\Controllers\SuccessController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderPhaseController;
 use App\Http\Controllers\PaymentMethod;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ServiceController;
@@ -116,6 +117,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/service_offers/{id}/delete-image', [ServiceOfferController::class, 'deleteImage'])->name('service_offers.delete_image');
     Route::get('/team/{id}/users', [ServiceOrderController::class, 'getTeamUsers'])->name('team.users');
     Route::post('/service-order/update', [ServiceOrderController::class, 'updateOrder'])->name('service-order.update');
+    Route::post('/order-phase/{id}/update-status', [OrderPhaseController::class, 'updateStatus'])->name('order-phase.update-status');
+    Route::patch('/service-order/{id}/update-status', [ServiceOrderController::class, 'updateStatus'])->name('service-order.update-status');
 
 
 });
