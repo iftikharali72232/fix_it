@@ -743,17 +743,8 @@ h6 {
   }
 
   .toggle-sidebar .sidebar .nav-item ul {
-      background: white;
-      position: absolute;
-      z-index: 100;
-      right: 100%; /* Position the dropdown outside the sidebar */
-      top: 0; /* Align with the top of the parent item */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional */
-      min-width: 150px; /* Ensure dropdown is wide enough */
-  }
-
-  .toggle-sidebar .sidebar-nav .nav-content a {
-    padding: 10px;
+      left: auto !important;
+      right: 100%;
   }
 
   .toggle-sidebar header .logo {
@@ -865,8 +856,12 @@ h6 {
   font-weight: 600;
   color: #012970;
   transition: 0.3;
-  padding: 10px 40px 10px 0px !important;
+  padding: 10px 30px 10px 0px !important;
   transition: 0.3s;
+}
+
+.toggle-sidebar .sidebar-nav .nav-content a {
+  padding: 10px 10px 10px 0px !important;
 }
 
 .sidebar-nav .nav-content a i {

@@ -1149,7 +1149,7 @@ h6 {
       left: 100%; /* Position the dropdown outside the sidebar */
       top: 0; /* Align with the top of the parent item */
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional */
-      min-width: 150px; /* Ensure dropdown is wide enough */
+      min-width: 180px; /* Ensure dropdown is wide enough */
   }
 
   .toggle-sidebar .sidebar-nav .nav-content a {
@@ -1280,6 +1280,12 @@ h6 {
 .sidebar-nav .nav-content a.active {
   color: white;
 }
+
+.toggle-sidebar .sidebar-nav .nav-content a:hover,
+.toggle-sidebar  .sidebar-nav .nav-content a.active {
+  color: rgb(0, 0, 0);
+}
+
 
 .sidebar-nav .nav-content a.active i {
   background-color: #4154f1;
