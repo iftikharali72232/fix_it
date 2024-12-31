@@ -24,6 +24,11 @@ body {
   overflow: hidden;
 }
 
+.toggle-sidebar .icon-container {
+  width: 20px;
+  height: 35px;
+}
+
 .icon-container img {
   width: 100%;
   height: 100%;
@@ -1130,7 +1135,7 @@ h6 {
   }
 
   .toggle-sidebar .sidebar .nav-link {
-      padding: 10px 15px;
+      padding: 5px 15px;
   }
 
   .toggle-sidebar .sidebar .nav-item {
