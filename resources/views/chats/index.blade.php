@@ -3,8 +3,8 @@
 @section('content')
 <h1>Customer Chats</h1>
 
-<table border="1" style="width:100%; text-align:left;">
-    <thead>
+<table class="table pretty-table">
+    <thead class="thead">
         <tr>
             <th>#</th>
             <th>Chat ID</th>
@@ -14,11 +14,11 @@
     </thead>
     <tbody>
         @foreach($chats as $key => $chat)
-        <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>{{ $chat->id }}</td>
-            <td>{{ $chat->customer->name }}</td>
-            <td>
+        <tr class="tbody">
+            <td class="align-middle">{{ $key + 1 }}</td>
+            <td class="align-middle">{{ $chat->id }}</td>
+            <td class="align-middle">{{ $chat->customer->name }}</td>
+            <td class="align-middle">
                 <a href="{{ route('chats.show', $chat->customer_id) }}">View Chat</a>
             </td>
         </tr>

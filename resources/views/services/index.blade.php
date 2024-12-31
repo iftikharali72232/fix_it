@@ -10,8 +10,8 @@
         </div>
     @endif
 
-    <table class="table table-bordered table-striped">
-        <thead>
+    <table class="table pretty-table table-striped">
+        <thead  class="thead">
             <tr>
                 <th>ID</th>
                 <th>Thumbnail</th>
@@ -24,20 +24,20 @@
         </thead>
         <tbody>
             @foreach($services as $service)
-                <tr>
-                    <td>{{ $service->id }}</td>
-                    <td>
+                <tr class="tbody">
+                    <td class="align-middle">{{ $service->id }}</td>
+                    <td class="align-middle">
                         @if($service->thumbnail)
-                            <img src="{{asset('thumbnails').'/'.$service->thumbnail }}" alt="" width="80" height="80">
+                            <img src="{{asset('thumbnails').'/'.$service->thumbnail }}" alt="" width="50" height="50">
                         @else
                             No Image
                         @endif
                     </td>
-                    <td>{{ $service->service_name }}</td>
-                    <td>{{ $service->category->name ?? 'N/A' }}</td> <!-- Category Name -->
-                    <td>{{ $service->description }}</td>
-                    <td>${{ $service->service_cost }}</td>
-                    <td>
+                    <td class="align-middle">{{ $service->service_name }}</td>
+                    <td class="align-middle">{{ $service->category->name ?? 'N/A' }}</td> <!-- Category Name -->
+                    <td class="align-middle">{{ $service->description }}</td>
+                    <td class="align-middle">${{ $service->service_cost }}</td>
+                    <td class="align-middle">
                         <!-- View Button -->
                         <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-info">View</a>
                         <!-- Edit Button -->

@@ -7,8 +7,8 @@
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-    <table class="table table-bordered">
-        <thead>
+    <table class="table pretty-table">
+        <thead class="thead">
             <tr>
                 <th>ID</th>
                 <th>Service Name</th>
@@ -20,13 +20,13 @@
         </thead>
         <tbody>
             @foreach ($serviceOffers as $offer)
-                <tr>
-                    <td>{{ $offer->id }}</td>
-                    <td>{{ $offer->service->service_name ?? 'N/A' }}</td>
-                    <td><img src="{{ asset('images/' . $offer->image) }}" alt="" width="100"></td>
-                    <td>{{ $offer->discount }}</td>
-                    <td>{{ $offer->status ? 'Active' : 'Inactive' }}</td>
-                    <td>
+                <tr class="tbody">
+                    <td class="align-middle">{{ $offer->id }}</td>
+                    <td class="align-middle">{{ $offer->service->service_name ?? 'N/A' }}</td>
+                    <td class="align-middle"><img src="{{ asset('images/' . $offer->image) }}" alt="" width="100"></td>
+                    <td class="align-middle">{{ $offer->discount }}</td>
+                    <td class="align-middle">{{ $offer->status ? 'Active' : 'Inactive' }}</td>
+                    <td class="align-middle">
                         <a href="{{ route('service_offers.edit', $offer->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('service_offers.destroy', $offer->id) }}" method="POST" style="display:inline;">
                             @csrf
