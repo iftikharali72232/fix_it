@@ -297,6 +297,92 @@ body {
 }
 /* like button design ends */
 
+/* view button design starts */
+.view-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  box-shadow: rgba(10, 37, 64, 0.11) 0px -2px 6px 0px inset;
+  background-color: #e8e8e8;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+  transition: transform 400ms cubic-bezier(.68, -0.55, .27, 2.5), 
+    border-color 400ms ease-in-out,
+    background-color 400ms ease-in-out;
+}
+
+@keyframes movingBorders {
+  0% {
+    border-color: #e4fce4;
+  }
+  50% {
+    border-color: #d8ffdd;
+  }
+  90% {
+    border-color: #e4fce4;
+  }
+}
+
+.view-button:hover {
+  background-color: #eee;
+  animation: movingBorders 3s infinite;
+}
+
+.eye-filled,
+.eye-empty {
+  fill: rgb(110, 110, 255);
+  transition: opacity 100ms ease-in-out;
+}
+
+.eye-filled {
+  position: absolute;
+  opacity: 0;
+}
+
+@keyframes pulsingEye {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.15);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+.view-button:hover .eye-empty {
+  opacity: 0;
+}
+
+.view-button:hover .eye-filled {
+  opacity: 1;
+  animation: pulsingEye 1.2s infinite;
+}
+
+.blink {
+  animation: blink-animation 2s infinite;
+  }
+
+  @keyframes blink-animation {
+  0%, 90% {
+      d: path("M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z");
+  }
+  95%, 100% {
+      d: path("M1 12s4-0 11-0 11 0 11 0-4 0-11 0-11 0-11 0z");
+  }
+  }
+/* view button design ends */
+
+
 .btn-container {
   display: table-cell;
   vertical-align: middle;

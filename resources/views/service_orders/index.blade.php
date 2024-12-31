@@ -45,7 +45,27 @@
                         @endswitch
                     </td>
                     <td class="align-middle">
-                        <a href="{{ route('service_orders.show', $order->id) }}" class="btn btn-info btn-sm">View</a>
+                        <!-- <a href="{{ route('service_orders.show', $order->id) }}" class="btn btn-info btn-sm">View</a> -->
+                        <a href="{{ route('service_orders.show', $order->id) }}" class="view-button">
+                            <div class="eye-filled">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path 
+                                    d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    stroke-width="2" 
+                                    class="blink" 
+                                />
+                                <circle cx="12" cy="12" r="3" fill="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="eye-empty">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </div>
+                        </a>
                     </td>
                 </tr>
             @endforeach

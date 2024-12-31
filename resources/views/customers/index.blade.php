@@ -2,8 +2,23 @@
 
 @section('content')
 <div class="container">
-    <h2>Team Users</h2>
-    <a href="{{ route('team_users.create') }}" class="btn btn-primary">Add User</a>
+    <div class="row">
+        <div class="col">
+        <h2>Team Users</h2>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <a  href="{{ route('team_users.create') }}">
+                <button type="button" class="cssbuttons-io">
+                    <span>
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Add Customer
+                    </span>
+                </button>
+            </a>
+        </div>
+    </div>
+    
+    <!-- <a href="{{ route('team_users.create') }}" class="btn btn-primary">Add User</a> -->
     <table class="table pretty-table mt-3">
         <thead class="thead">
             <tr>
