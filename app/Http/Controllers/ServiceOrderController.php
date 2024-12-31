@@ -40,7 +40,7 @@ class ServiceOrderController extends Controller
             }
         }
 
-        return view('service_order.create', compact('services', 'serviceData', 'variables'));
+        return view('service_orders.create', compact('services', 'serviceData', 'variables'));
     }
     public function updateOrder(Request $request)
     {
@@ -121,37 +121,36 @@ class ServiceOrderController extends Controller
     // Store the service order in the database
     public function store(Request $request)
     {
-        // Validate the form data
-        $validated = $request->validate([
-            'service_id' => 'required|exists:services,id',
-            'service_cost' => 'required',
-            'tax' => 'required',
-            'discount' => 'required',
+        $validatedData = $request->validate([
+            'service_id' => 'required|integer|exists:services,id',
             'variables' => 'required|array',
+            'service_cost' => 'required|numeric',
+            'tax' => 'nullable|numeric',
+            'discount' => 'nullable|numeric',
+            'service_date' => 'required|date',
         ]);
+        $serviceData = Service::find($request->service_id);
+        $variables = [];
+        foreach ($request->variables as $label => $value) {
+            $variable = collect(json_decode($serviceData->variables_json, true))
+                ->firstWhere('label', $label);
 
-        // Create the service order
-        $order = new ServiceOrder();
-        $order->service_id = $validated['service_id'];
-        $order->service_cost = $validated['service_cost'];
-        $order->tax = $validated['tax'];
-        $order->discount = $validated['discount'];
-        
-        // Prepare variables JSON
-        $variablesJson = [];
-        foreach ($validated['variables'] as $label => $value) {
-            $variablesJson[] = [
+            $variables[] = [
                 'label' => $label,
+                'type' => $variable['type'] ?? '',
+                'dropdown_values' => $variable['dropdown_values'] ?? null,
                 'value' => $value,
             ];
         }
 
-        $order->variables_json = json_encode($variablesJson);
-        $order->status = 'pending'; // You can customize the status
-        $order->save();
+        // echo "<pre>";print_r($variables); exit;
+        $validatedData['variables_json'] = json_encode($variables);
 
-        return redirect()->route('service_order.create')->with('success', 'Service order created successfully');
+        ServiceOrder::create($validatedData);
+
+        return redirect()->route('service_orders.index')->with('success', 'Order created successfully.');
     }
+
 
     public function updateStatus(Request $request, $id)
     {

@@ -74,4 +74,28 @@ class ServiceOrderController extends Controller
         $order['service'] = Service::with(['category', 'servicePhases'])->find($order->service_id);
         return response()->json($order);
     }
+    public function updateOrderDate(Request $request, $id)
+    {
+        $request->validate([
+            'date' => 'required', // Ensure a valid date is provided
+        ]);
+
+        $order = ServiceOrder::find($id);
+
+        if (!$order) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order not found',
+            ], 404);
+        }
+
+        $order->service_date = $request->input('date');
+        $order->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order date updated successfully',
+            'order' => $order,
+        ]);
+    }
 }

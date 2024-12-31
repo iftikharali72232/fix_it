@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\OrderPhaseController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ChatApiController;
 use App\Http\Controllers\Location;
 use App\Http\Controllers\ServiceOfferController;
 
@@ -198,5 +199,10 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     Route::get('/offer/list', [ServiceOfferController::class, 'offerList'])->name('offerList');
 
     Route::apiResource('order-phases', OrderPhaseController::class);
+    Route::post('/order/{id}/update-date', [ServiceOrderController::class, 'updateOrderDate']);
 
+    Route::prefix('chats')->group(function () {
+        Route::get('/get', [ChatApiController::class, 'getChats']); // Get all chats for a customer
+        Route::post('/store', [ChatApiController::class, 'storeChat']); // Store a new chat message
+    });
 });

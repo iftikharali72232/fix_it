@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatApiController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SuccessController;
@@ -120,7 +121,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/order-phase/{id}/update-status', [OrderPhaseController::class, 'updateStatus'])->name('order-phase.update-status');
     Route::patch('/service-order/{id}/update-status', [ServiceOrderController::class, 'updateStatus'])->name('service-order.update-status');
 
-
+    Route::get('/chats', [ChatApiController::class, 'index'])->name('chats.index');
+    Route::get('/chats/{customerId}', [ChatApiController::class, 'show'])->name('chats.show');
+    Route::post('/chats', [ChatApiController::class, 'store'])->name('chats.store');
 });
 
 

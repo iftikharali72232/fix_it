@@ -142,7 +142,7 @@
       </a>
       <ul id="chats" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('users.index')}}">
+          <a href="{{route('chats.index')}}">
             <i class="bi bi-circle"></i><span>Chat List</span>
           </a>
         </li>

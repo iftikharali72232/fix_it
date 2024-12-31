@@ -9,7 +9,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('service_order.create') }}" method="GET">
+        <form action="{{ route('service_orders.create') }}" method="GET">
             @csrf
 
             <!-- Service Dropdown -->
@@ -27,7 +27,7 @@
         </form>
 
         @if(request('service_id') && isset($serviceData))
-            <form action="{{ route('service_order.store') }}" method="POST">
+            <form action="{{ route('service_orders.store') }}" method="POST">
                 @csrf
 
                 <!-- Dynamic Form Fields -->
@@ -62,9 +62,14 @@
                 </div>
 
                 <!-- Service Cost, Tax, Discount -->
+                 <input type="hidden" name="service_id" value="{{$serviceData->id}}">
                 <div class="form-group">
                     <label for="service_cost">Service Cost</label>
-                    <input type="text" id="service_cost" name="service_cost" class="form-control" value="{{ $serviceData->service_cost }}" readonly />
+                    <input type="text" id="service_cost" name="service_cost" class="form-control" value="{{ $serviceData->actual_cost }}" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="service_date">Service Cost</label>
+                    <input type="date" id="service_date" name="service_date" class="form-control" value="{{ date('Y-m-d'); }}" readonly />
                 </div>
 
                 <div class="form-group">

@@ -12,8 +12,11 @@ class Chat extends Model
     use HasFactory, HasApiTokens;
 
     protected $fillable = [
-        "shop_id",
-        "user_id"
+        'customer_id',
+        'text',
+        'images',
+        'audios',
+        'is_admin'
     ];
 
     /**
@@ -24,4 +27,9 @@ class Chat extends Model
     protected $hidden = [
         
     ];
+    public function customer()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
