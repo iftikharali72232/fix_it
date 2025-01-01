@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Customer Chats</h1>
-
+<h1 class="text-sm-start text-center">Customer Chats</h1>
+<div class="table-responsive">
 <table class="table pretty-table">
     <thead class="thead">
         <tr>
@@ -25,4 +25,5 @@
         @endforeach
     </tbody>
 </table>
+</div>
 @endsection

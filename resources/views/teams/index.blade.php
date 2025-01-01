@@ -6,10 +6,10 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="row">
-            <div class="col">
-            <h2>Teams</h2>
+            <div class="col-md-6">
+            <h2 class="text-sm-start text-center">Teams</h2>
             </div>
-            <div class="col d-flex justify-content-end">
+            <div class="col-md-6 d-flex justify-content-md-end justify-content-center">
                 <a href="{{ route('teams.create') }}">
                     <button type="button" class="cssbuttons-io">
                         <span>
@@ -22,6 +22,7 @@
         </div>
         <!-- <a href="{{ route('teams.create') }}" class="btn btn-primary mb-3">Add Team</a> -->
 
+        <div class="table-responsive">
         <table class="table pretty-table">
             <thead class="thead">
                 <tr>
@@ -65,6 +66,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 
     <!-- CSRF Token -->

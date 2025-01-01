@@ -5,10 +5,10 @@
     <!-- <h2>Service Offers</h2>
     <a href="{{ route('service_offers.create') }}" class="btn btn-primary mb-3">Add New Offer</a> -->
     <div class="row">
-        <div class="col">
-        <h2>Service Offers</h2>
+        <div class="col-md-6">
+        <h2 class="text-sm-start text-center">Service Offers</h2>
         </div>
-        <div class="col d-flex justify-content-end">
+        <div class="col-md-6 d-flex justify-content-md-end justify-content-center">
             <a href="{{ route('service_offers.create') }}">
                 <button type="button" class="cssbuttons-io">
                     <span>
@@ -23,6 +23,8 @@
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+
+    <div class="table-responsive">
     <table class="table pretty-table">
         <thead class="thead">
             <tr>
@@ -69,5 +71,6 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

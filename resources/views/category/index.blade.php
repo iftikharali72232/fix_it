@@ -24,7 +24,7 @@
             </div>
           @endif
 
-
+        <div class="table-responsive">
           <table class="table pretty-table">
             <tr class="thead">
               <th>{{trans('lang.number')}}</th>
@@ -85,9 +85,7 @@
         </tr>
       @endforeach
           </table>
-
-
-
+          </div>
 
         <!-- </div>
       </div> -->

@@ -19,6 +19,7 @@ body {
   background: linear-gradient(40deg, #FF6666 40%, #FFA07A 80%) !important;
   color: #444444;
   direction: rtl;
+  overflow-x: hidden;
 }
 
 .icon-container {

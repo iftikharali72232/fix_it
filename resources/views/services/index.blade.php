@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Service Listing</h1>
+    <h1 class="text-sm-start text-center">Service Listing</h1>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -10,6 +10,7 @@
         </div>
     @endif
 
+    <div class="table-responsive">
     <table class="table pretty-table table-striped">
         <thead  class="thead">
             <tr>
@@ -88,6 +89,7 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 
     <!-- Pagination -->
     <div>

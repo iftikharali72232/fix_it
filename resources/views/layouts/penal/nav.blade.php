@@ -51,7 +51,7 @@
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-none d-md-block">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell text-white"></i>
             <span class="badge bg-primary badge-number">{{count($new_users)}}</span>

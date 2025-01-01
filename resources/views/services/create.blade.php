@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <div class="card p-5">
     <h1>Create Service</h1>
     <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -17,51 +18,54 @@
             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
         </div>
 
+        <div class="row">
         <!-- Thumbnail -->
-        <div class="mb-3">
-            <label for="thumbnail" class="form-label">Thumbnail</label>
-            <input type="file" class="form-control" id="thumbnail" name="thumbnail">
-        </div>
+            <div class="col-md-6 mb-3">
+                <label for="thumbnail" class="form-label">Thumbnail</label>
+                <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+            </div>
 
-        <!-- Images -->
-        <div class="mb-3">
-            <label for="images" class="form-label">Images</label>
-            <input type="file" class="form-control" id="images" name="images[]" multiple>
-        </div>
+            <!-- Images -->
+            <div class="col-md-6 mb-3">
+                <label for="images" class="form-label">Images</label>
+                <input type="file" class="form-control" id="images" name="images[]" multiple>
+            </div>
 
-        <!-- Category -->
-        <div class="mb-3">
-            <label for="category_id" class="form-label">Category</label>
-            <select class="form-select" id="category_id" name="category_id" required>
-                <option value="">Select a Category</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
+            <!-- Category -->
+            <div class="col-md-6 mb-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select class="form-select" id="category_id" name="category_id" required>
+                    <option value="">Select a Category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <!-- Estimated Time -->
-        <div class="mb-3">
-            <label for="estimated_time" class="form-label">Estimated Time (minutes)</label>
-            <input type="text" class="form-control" id="estimated_time" name="estimated_time">
-        </div>
+            <!-- Estimated Time -->
+            <div class="col-md-6 mb-3">
+                <label for="estimated_time" class="form-label">Estimated Time (minutes)</label>
+                <input type="text" class="form-control" id="estimated_time" name="estimated_time">
+            </div>
 
-        <!-- Start Time -->
-        <div class="mb-3">
-            <label for="start_time" class="form-label">Start Time</label>
-            <input type="text" class="form-control" id="start_time" name="start_time">
-        </div>
+            <!-- Start Time -->
+            <div class="col-md-6 mb-3">
+                <label for="start_time" class="form-label">Start Time</label>
+                <input type="text" class="form-control" id="start_time" name="start_time">
+            </div>
 
-        <!-- Service Cost -->
-        <div class="mb-3">
-            <label for="service_cost" class="form-label">Service Cost Range</label>
-            <input type="text" class="form-control" id="service_cost" name="service_cost" step="0.01" required>
-        </div>
+            <!-- Service Cost -->
+            <div class="col-md-6 mb-3">
+                <label for="service_cost" class="form-label">Service Cost Range</label>
+                <input type="text" class="form-control" id="service_cost" name="service_cost" step="0.01" required>
+            </div>
 
-        <!-- Actual Cost -->
-        <div class="mb-3">
-            <label for="actual_cost" class="form-label">Actual Cost</label>
-            <input type="text" class="form-control" id="actual_cost" name="actual_cost" step="0.01" required>
+            <!-- Actual Cost -->
+            <div class="col-md-6 mb-3">
+                <label for="actual_cost" class="form-label">Actual Cost</label>
+                <input type="text" class="form-control" id="actual_cost" name="actual_cost" step="0.01" required>
+            </div>
+        
         </div>
 
         <!-- Service Variables -->
@@ -74,9 +78,18 @@
         <div id="service-phases-container"></div>
         <button type="button" class="btn btn-success add-phase">Add Phase</button>
 
+        <div class="mt-3">
+            <button type="submit" class="cssbuttons-io">
+                <span>
+                    <i class="fa-regular fa-floppy-disk {{ app()->getLocale() == 'en' ? 'me-2' : 'ms-2' }}"></i>
+                    Create Service
+                </span>
+            </button>
+        </div>
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary mt-3">Create Service</button>
+        <!-- <button type="submit" class="btn btn-primary mt-3">Create Service</button> -->
     </form>
+    </div>
 </div>
 
 <!-- JavaScript for Adding Input Fields Dynamically -->

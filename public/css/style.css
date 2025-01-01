@@ -16,6 +16,24 @@ body {
   font-family: "Open Sans", sans-serif;
   background: linear-gradient(320deg, #FF6666 40%, #FFA07A 80%);
   color: #444444;
+  overflow-x: hidden;
+}
+
+select, input {
+  background: #f6f6f6b0 !important;
+  border-radius: 5px !important;
+  padding: 12px 20px !important;
+}
+
+textarea {
+  background: #f6f6f6b0 !important;
+  border-radius: 5px !important;
+}
+
+input[type="radio"] {
+  background: transparent !important;
+  border-radius: 100px !important;
+  padding: 0px !important;
 }
 
 .icon-container {
@@ -1161,11 +1179,6 @@ h6 {
     transition: 0.3s;
   }
 
-  .toggle-sidebar .logo img {
-    max-height: 25px;
-    transition: 0.3s;
-  }  
-
   .toggle-sidebar .sidebar-nav .nav-link i {
     font-size: 24px;
     margin-right: 0px;
@@ -1183,6 +1196,13 @@ h6 {
     width: 0px;
     padding: 0px;
   }
+
+  .logo img {
+    max-height: 25px !important;
+    transition: 0.3s;
+    padding: 0px 5px;
+  }  
+
 }
 
 .sidebar-nav {

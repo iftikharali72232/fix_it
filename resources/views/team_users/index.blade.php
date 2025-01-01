@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col">
-        <h2>Team Users</h2>
+        <div class="col-md-6">
+        <h2 class="text-sm-start text-center">Team Users</h2>
         </div>
-        <div class="col d-flex justify-content-end">
+        <div class="col-md-6 d-flex justify-content-md-end justify-content-center">
             <a href="{{ route('team_users.create') }}">
                 <button type="button" class="cssbuttons-io">
                     <span>
@@ -19,6 +19,7 @@
     </div>
     <!-- <a href="{{ route('team_users.create') }}" class="btn btn-primary">Add User</a> -->
 
+    <div class="table-responsive">
     <table class="table pretty-table mt-3">
         <thead class="thead">
             <tr>
@@ -64,5 +65,6 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 @endsection
