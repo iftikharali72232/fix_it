@@ -15,7 +15,7 @@
   $new_users = DB::select('SELECT id,name, user_type, created_at FROM users WHERE is_read =0 AND user_type != 0 ORDER BY id DESC'); ?>
     <div class="search-bar">
       <form class="search-form d-flex align-items-center mb-0" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <input type="text" name="query" id="search-input" placeholder="Search" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
     </div><!-- End Search Bar -->
