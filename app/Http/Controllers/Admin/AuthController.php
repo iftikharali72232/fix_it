@@ -33,11 +33,17 @@ class AuthController extends Controller
         {
             $file_name = $this->upload($request);
         }
+        if(User::where('email', $request->email)->first())
+        {
+            return response([
+                "message" => "Email is duplicate, please try with another email..!"
+            ]);
+        }
         $randomNumber = rand(100000, 999999);
         $user = User::create([
             "name"=> $attrs["name"],
             "name_ar"=> $request->name_ar,
-            "email"=> $request->email,
+            "email"=> $request->email ?? "",
             "mobile" => $attrs["mobile"],
             "user_type" => $attrs['user_type'],
             "password"=> bcrypt($attrs["password"]),
