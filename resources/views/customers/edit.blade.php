@@ -2,35 +2,49 @@
 
 @section('content')
 <div class="container">
-    <h1>Edit User</h1>
-    <form action="{{ route('customers.update', $user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <div class="card p-5">
+        <h1>Edit User</h1>
+        <form action="{{ route('customers.update', $user->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
-        </div>
+            <div class="form-group mb-3">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+            </div>
 
-        <div class="form-group">
-            <label for="mobile">Mobile</label>
-            <input type="text" name="mobile" id="mobile" class="form-control" value="{{ old('mobile', $user->mobile) }}" required>
-        </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="text" name="mobile" id="mobile" class="form-control" value="{{ old('mobile', $user->mobile) }}" required>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
-        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                    </div>
+                </div>
+            </div>
 
+            <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control">
+                <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
+            </div>
 
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control">
-            <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update User</button>
-    </form>
+            <div class="mt-4">
+                <button type="submit" class="cssbuttons-io">
+                    <span>
+                        <i class="fa-regular fa-floppy-disk {{ app()->getLocale() == 'en' ? 'me-2' : 'ms-2' }}"></i>
+                        Update
+                    </span>
+                </button>
+            </div>
+            <!-- <button type="submit" class="btn btn-primary">Update User</button> -->
+        </form>
+    </div>
 </div>
 @endsection

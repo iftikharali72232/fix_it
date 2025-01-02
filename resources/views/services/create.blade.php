@@ -72,13 +72,15 @@
         <h5>Service Variables</h5>
         <div id="service-variables-container"></div>
         <button type="button" class="btn btn-success add-variable">Add Variable</button>
-
+        
+        <hr>
+        
         <!-- Service Phases -->
-        <h5>Service Phases</h5>
+        <h5 class="mt-3">Service Phases</h5>
         <div id="service-phases-container"></div>
         <button type="button" class="btn btn-success add-phase">Add Phase</button>
 
-        <div class="mt-3">
+        <div class="mt-4">
             <button type="submit" class="cssbuttons-io">
                 <span>
                     <i class="fa-regular fa-floppy-disk {{ app()->getLocale() == 'en' ? 'me-2' : 'ms-2' }}"></i>
@@ -102,20 +104,32 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.add-variable').addEventListener('click', function () {
         let container = document.getElementById('service-variables-container');
         let newVariable = `
-            <div class="mb-3">
-                <label class="form-label">Label</label>
-                <input type="text" class="form-control" name="service_variables[${variableIndex}][label]" placeholder="Enter label" required>
+            <div class="row mb-3">
+                <div class="col-md-12 d-flex align-items-center">
+                    <div class="w-100">
+                        <label class="form-label">Label</label>
+                        <input type="text" class="form-control" name="service_variables[${variableIndex}][label]" placeholder="Enter label" required>
+                    </div>
 
-                <label class="form-label">Type</label>
-                <div>
-                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="text"> Text
-                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="date"> Date
-                    <input type="radio" class="form-check-input variable-type dropdown-type" name="service_variables[${variableIndex}][type]" value="dropdown"> Dropdown
-                    <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="checkbox"> Checkbox
+                    <div class="w-auto d-flex align-items-end h-100 ms-3">
+                        <button type="button" class="btn btn-lg btn-danger rounded remove-variable" title="Remove">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
-                <textarea class="form-control mt-2 d-none dropdown-values" name="service_variables[${variableIndex}][dropdown_values]" placeholder="Enter comma-separated values for dropdown"></textarea>
 
-                <button type="button" class="btn btn-danger mt-2 remove-variable">Remove</button>
+                <div class="col-md-12 d-flex align-items-center">
+                    <div class="mt-3 w-100">
+                        <label class="form-label mt-1">Type</label>
+                        <div>
+                            <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="text"> Text
+                            <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="date"> Date
+                            <input type="radio" class="form-check-input variable-type dropdown-type" name="service_variables[${variableIndex}][type]" value="dropdown"> Dropdown
+                            <input type="radio" class="form-check-input variable-type" name="service_variables[${variableIndex}][type]" value="checkbox"> Checkbox
+                        </div>
+                        <textarea class="form-control mt-2 d-none dropdown-values" name="service_variables[${variableIndex}][dropdown_values]" placeholder="Enter comma-separated values for dropdown"></textarea>
+                    </div>
+                </div>
             </div>
         `;
         container.insertAdjacentHTML('beforeend', newVariable);
@@ -126,10 +140,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.add-phase').addEventListener('click', function () {
         let container = document.getElementById('service-phases-container');
         let newPhase = `
-            <div class="mb-3">
-                <label class="form-label">Phase Name</label>
-                <input type="text" class="form-control" name="service_phases[${phaseIndex}]" placeholder="Enter phase name">
-                <button type="button" class="btn btn-danger mt-2 remove-phase">Remove</button>
+            <div class="d-flex align-items-end mb-3">
+                <div class="w-100">
+                    <label class="form-label">Phase Name</label>
+                    <input type="text" class="form-control" name="service_phases[${phaseIndex}]" placeholder="Enter phase name">
+                </div>
+
+                <div class="w-auto ms-3">
+                    <button type="button" class="btn btn-lg btn-danger rounded remove-phase" title="Remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </div>
         `;
         container.insertAdjacentHTML('beforeend', newPhase);
