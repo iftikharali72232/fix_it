@@ -263,7 +263,7 @@ class AuthController extends Controller
         // print_r($request->name_ar); exit;
         $attrs = $request->validate([
             "name"=> "required|string",
-            "email"=> "required|email",
+            // "email"=> "required|email",
             'mobile' => 'required',
         ]);
         
