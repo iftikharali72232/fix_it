@@ -191,4 +191,13 @@ class ServiceController extends Controller
 
         return response()->json($services);
     }
+    function offerList()
+    {
+        $serviceOffers = ServiceOffer::where('status', 1)->get();
+        $serviceOffers['image_base_url'] = public_path('images');
+        return response()->json([
+            'status' => 1,
+            'data' => json_decode(json_encode($serviceOffers), true)
+        ]);
+    }
 }
