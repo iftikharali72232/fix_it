@@ -33,10 +33,12 @@ class AuthController extends Controller
         {
             $file_name = $this->upload($request);
         }
-        if(User::where('email', $request->email)->first())
+        $ussr = User::where('email', $attrs['email'])->first();
+        if($ussr)
         {
             return response([
-                "message" => "Email is duplicate, please try with another email..!"
+                "message" => "Email is duplicate, please try with another email..!",
+                'user' => $ussr
             ]);
         }
         $randomNumber = rand(100000, 999999);
