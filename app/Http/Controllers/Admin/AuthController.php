@@ -33,7 +33,7 @@ class AuthController extends Controller
         {
             $file_name = $this->upload($request);
         }
-        $ussr = User::where('email', $attrs['email'])->first();
+        $ussr = User::where('email', $request->email)->first();
         if($ussr)
         {
             return response([
