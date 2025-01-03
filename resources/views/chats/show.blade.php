@@ -1,34 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="chat-box">
-    @foreach($chats as $chat)
-        <div class="chat-message {{ $chat->is_admin == 1 ? 'sent' : 'received' }}">
-            <div class="message-content">
-                <p class="chat-text">{{ $chat->text }}</p>
+<div class="chat-container">
+    <h1 class="chat-header">Chat with {{ $customer->name }}</h1>
 
-                {{-- Display images --}}
-                @if ($chat->images)
-                    @foreach (json_decode($chat->images, true) as $image)
-                        <img src="{{ asset('images/' . $image) }}" alt="Chat Image" class="chat-image">
-                    @endforeach
-                @endif
+    <!-- Chat Messages -->
+    <div class="chat-box">
+        @foreach($chats as $chat)
+            <div class="chat-message {{ $chat->is_admin == 1 ? 'sent' : 'received' }}">
+                <div class="message-content">
+                    <p class="chat-text">{{ $chat->text }}</p>
 
-                {{-- Display audios --}}
-                @if ($chat->audios)
-                    @foreach (json_decode($chat->audios, true) as $audio)
-                        <audio controls class="chat-audio">
-                            <source src="{{ asset('audios/' . $audio) }}" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    @endforeach
-                @endif
+                    {{-- Display images --}}
+                    @if ($chat->images)
+                        @foreach (json_decode($chat->images, true) as $image)
+                            <img src="{{ asset('images/' . $image) }}" alt="Chat Image" class="chat-image">
+                        @endforeach
+                    @endif
+
+                    {{-- Display audios --}}
+                    @if ($chat->audios)
+                        @foreach (json_decode($chat->audios, true) as $audio)
+                            <audio controls class="chat-audio">
+                                <source src="{{ asset('audios/' . $audio) }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        @endforeach
+                    @endif
+                </div>
+                <span class="chat-time">{{ $chat->created_at->format('H:i') }}</span>
             </div>
-            <span class="chat-time">{{ $chat->created_at->format('H:i') }}</span>
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
 
+
+    <!-- Send Message -->
+    <form action="{{ route('chats.store') }}" method="POST" enctype="multipart/form-data" class="send-message-form">
+        @csrf
+        <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+        <textarea name="text" placeholder="Type your message..." required class="message-input"></textarea>
+        <input type="file" name="images[]" multiple class="file-input">
+        <button type="submit" class="send-btn">Send</button>
+    </form>
+</div>
 @endsection
 
 @section('styles')
@@ -158,5 +172,15 @@
             padding: 8px 15px;
         }
     }
+    .chat-image {
+    max-width: 100px; /* Set maximum width */
+    max-height: 100px; /* Set maximum height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    margin-top: 5px;
+    border-radius: 5px; /* Optional: Add rounded corners */
+    object-fit: cover; /* Ensures the image fits well within the dimensions */
+}
+
 </style>
 @endsection
