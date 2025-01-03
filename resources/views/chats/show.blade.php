@@ -22,7 +22,7 @@
                     @if ($chat->audios)
                         @foreach (json_decode($chat->audios, true) as $audio)
                             <audio controls class="chat-audio">
-                                <source src="{{ asset('audios/' . $audio) }}" type="audio/mpeg">
+                                <source src="{{ asset('phase/audios/' . $audio) }}" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
                         @endforeach

@@ -182,25 +182,35 @@ class ServiceController extends Controller
     function recentServices()
     {
         $user = auth()->user();
-        $serviceIds = ServiceOrder::where('customer_id', $user->id)->pluck('service_id');
-        $serviceIds = array_unique(json_decode(json_encode($serviceIds), true));
+        if($user->user_type == 1){
+            $serviceIds = ServiceOrder::where('customer_id', $user->id)->pluck('service_id');
+            $serviceIds = array_unique(json_decode(json_encode($serviceIds), true));
+    
+            $services = Service::with(['category', 'servicePhases'])
+                ->whereIn('id', $serviceIds)
+                ->get();
 
-        $services = Service::with(['category', 'servicePhases'])
-            ->whereIn('id', $serviceIds)
-            ->get();
+        } else if($user->user_type == 2) {
+            $serviceIds = ServiceOrder::where('customer_id', $user->id)->pluck('service_id');
+            $serviceIds = array_unique(json_decode(json_encode($serviceIds), true));
+    
+            $services = Service::with(['category', 'servicePhases'])
+                ->whereIn('id', $serviceIds)
+                ->get();
+        }
 
         return response()->json($services);
     }
     public function offerList()
-{
-    $serviceOffers = ServiceOffer::where('status', 1)->get();
+    {
+        $serviceOffers = ServiceOffer::where('status', 1)->get();
 
-    // Prepare the response as an associative array to avoid numeric indexes
-    $response = [
-        'offers' => $serviceOffers,
-        'image_base_url' => public_path('images'),
-    ];
+        // Prepare the response as an associative array to avoid numeric indexes
+        $response = [
+            'offers' => $serviceOffers,
+            'image_base_url' => public_path('images'),
+        ];
 
-    return response()->json($response);
-}
+        return response()->json($response);
+    }
 }
