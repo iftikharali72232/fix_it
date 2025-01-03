@@ -191,7 +191,7 @@ class ServiceController extends Controller
                 ->get();
 
         } else if($user->user_type == 2) {
-            $serviceIds = ServiceOrder::where('customer_id', $user->id)->pluck('service_id');
+            $serviceIds = ServiceOrder::where('team_user_id', $user->id)->pluck('service_id');
             $serviceIds = array_unique(json_decode(json_encode($serviceIds), true));
     
             $services = Service::with(['category', 'servicePhases'])
