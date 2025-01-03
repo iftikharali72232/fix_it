@@ -69,7 +69,7 @@ class ChatApiController extends Controller
                 $audio = $request->file('audio');
                 $audioName = time() . '_' . $audio->getClientOriginalName();
                 $audio->move(public_path('phase/audios'), $audioName);
-                $audios = 'phase/audios/' . $audioName;
+                $audios = $audioName;
             // }
         }
         $chat = Chat::create([
@@ -108,7 +108,7 @@ class ChatApiController extends Controller
             $audio = $request->file('audio');
             $audioName = time() . '_' . $audio->getClientOriginalName();
             $audio->move(public_path('phase/audios'), $audioName);
-            $audios = 'phase/audios/' . $audioName;
+            $audios = $audioName;
         }
     
         Chat::create([

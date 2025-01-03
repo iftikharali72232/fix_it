@@ -1,33 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="chat-container">
-    <h1 class="chat-header">Chat with {{ $customer->name }}</h1>
+<div class="chat-box">
+    @foreach($chats as $chat)
+        <div class="chat-message {{ $chat->is_admin == 1 ? 'sent' : 'received' }}">
+            <div class="message-content">
+                <p class="chat-text">{{ $chat->text }}</p>
 
-    <!-- Chat Messages -->
-    <div class="chat-box">
-        @foreach($chats as $chat)
-            <div class="chat-message {{ $chat->is_admin == 1 ? 'sent' : 'received' }}">
-                <div class="message-content">
-                    <p class="chat-text">{{ $chat->text }}</p>
-                    @if ($chat->images)
-                        <img src="{{ asset('images/' . json_decode($chat->images)[0]) }}" alt="Chat Image" class="chat-image">
-                    @endif
-                </div>
-                <span class="chat-time">{{ $chat->created_at->format('H:i') }}</span>
+                {{-- Display images --}}
+                @if ($chat->images)
+                    @foreach (json_decode($chat->images, true) as $image)
+                        <img src="{{ asset('images/' . $image) }}" alt="Chat Image" class="chat-image">
+                    @endforeach
+                @endif
+
+                {{-- Display audios --}}
+                @if ($chat->audios)
+                    @foreach (json_decode($chat->audios, true) as $audio)
+                        <audio controls class="chat-audio">
+                            <source src="{{ asset('audios/' . $audio) }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    @endforeach
+                @endif
             </div>
-        @endforeach
-    </div>
-
-    <!-- Send Message -->
-    <form action="{{ route('chats.store') }}" method="POST" enctype="multipart/form-data" class="send-message-form">
-        @csrf
-        <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-        <textarea name="text" placeholder="Type your message..." required class="message-input"></textarea>
-        <input type="file" name="images[]" multiple class="file-input">
-        <button type="submit" class="send-btn">Send</button>
-    </form>
+            <span class="chat-time">{{ $chat->created_at->format('H:i') }}</span>
+        </div>
+    @endforeach
 </div>
+
 @endsection
 
 @section('styles')
