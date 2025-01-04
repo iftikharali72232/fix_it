@@ -22,6 +22,7 @@ use App\Http\Controllers\OrderPhaseController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ChatApiController;
 use App\Http\Controllers\Location;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceOfferController;
 
 /*
@@ -205,4 +206,6 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
         Route::get('/get', [ChatApiController::class, 'getChats']); // Get all chats for a customer
         Route::post('/store', [ChatApiController::class, 'storeChat']); // Store a new chat message
     });
+    // Laravel API Route
+     Route::post('/reviews', [ReviewController::class, 'store']);
 });
