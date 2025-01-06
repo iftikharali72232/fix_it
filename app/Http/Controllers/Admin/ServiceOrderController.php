@@ -71,7 +71,13 @@ class ServiceOrderController extends Controller
         $order = ServiceOrder::find($id);
         $order['team'] = Team::find($order->team_id);
         $order['team_user'] = User::find($order->team_user_id);
-        $order['service'] = Service::with(['category', 'servicePhases'])->find($order->service_id);
+        
+        $order['service'] = Service::with(['category',
+                                'servicePhases.orderPhases' => function ($query) use ($order) {
+                                    $query->where('order_id', $order->id);
+                                }
+                            ])->find($order->service_id);
+        
         return response()->json($order);
     }
     public function updateOrderDate(Request $request, $id)

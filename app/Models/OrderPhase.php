@@ -26,4 +26,20 @@ class OrderPhase extends Model
         'audios' => 'array',
         'videos' => 'array',
     ];
+
+    /**
+     * Relation with service_phases table.
+     */
+    public function servicePhase()
+    {
+        return $this->belongsTo(ServicePhase::class, 'phase_id');
+    }
+
+    /**
+     * Optionally, relation with Service if required.
+     */
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }

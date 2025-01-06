@@ -30,4 +30,10 @@ class ServicePhase extends Model
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
+
+    // ServicePhase Model
+    public function orderPhases()
+    {
+        return $this->hasMany(OrderPhase::class, 'phase_id');
+    }
 }
