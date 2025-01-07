@@ -30,6 +30,15 @@
             </div>
 
             <div class="form-group mb-3">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="" disabled>Select Status</option>
+                    <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-3">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-control">
                 <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>

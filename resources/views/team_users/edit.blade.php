@@ -40,6 +40,15 @@
                     @endforeach
                 </select>
             </div>
+            <div class="form-group mb-3">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="" disabled>Select Status</option>
+                    <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
 
             <div class="form-group mb-3">
                 <label for="password">Password</label>

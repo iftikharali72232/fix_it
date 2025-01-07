@@ -74,7 +74,7 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            // 'team_id' => 'required|exists:teams,id',
+            'status' => 'nullable|int',
         ]);
 
         if ($request->filled('password')) {
