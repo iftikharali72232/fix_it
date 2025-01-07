@@ -44,6 +44,11 @@ class AuthController extends Controller
                 'user' => $ussr
             ]);
         }
+        $status = 1;
+        if($request->user_type == 2)
+        {
+            $status = 0;
+        }
         $randomNumber = rand(100000, 999999);
         $user = User::create([
             "name"=> $attrs["name"],
@@ -55,7 +60,7 @@ class AuthController extends Controller
             "image"=> $file_name,
             "otp"=> $randomNumber,
             "street_address" => $request->address,
-            "status"=> 1,
+            "status"=> $status,
             "country" => $request->country,
         ]);
         if(!empty($file_name))
@@ -76,7 +81,7 @@ class AuthController extends Controller
             // $notification->save();
             return response([
                 'users' => $user,
-                'token' => $user->createToken('secret')->plainTextToken,
+                'token' => $status == 1 ? $user->createToken('secret')->plainTextToken : "",
             ]);
         } else {
             return response([
