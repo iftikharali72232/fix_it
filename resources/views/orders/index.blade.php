@@ -24,7 +24,7 @@
                                       @php
                                         //echo "<pre>";print_r($perPage); exit;
                                         $page = $_GET['page'] ?? 1;
-                                        $i = ($page*$perPage)-$perPage;
+                                        $i = ($page*$perPage)-10;
                                       @endphp
                                     <?php
                                             foreach($orders as $key => $row) {

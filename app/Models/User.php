@@ -284,5 +284,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chat::class);
     }
-
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
 }

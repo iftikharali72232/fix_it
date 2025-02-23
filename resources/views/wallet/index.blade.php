@@ -39,33 +39,33 @@
    <th width="280px">{{trans('lang.action')}}</th>
  </tr>
  @php
- //echo "<pre>";print_r($perPage); exit;
+ //echo "<pre>";print_r($wallets ); exit;
  $page = $_GET['page'] ?? 1;
  $i = ($page*$perPage)-$perPage;
  @endphp
- @foreach ($wallets as $key => $wallet)
- @php
-    $user = DB::table('users')->where('id', $wallet->user_id)->get()[0];
- @endphp
-  <tr>
-    <td>{{ ++$i }}</td>
-    <td>{{ $user->name }}</td>
-    <td>{{ $wallet->amount }}</td>
-    <td>{{$user->user_type == 0 ? "ADMIN" : ($user->user_type == 1? "SELLER" : "BUYER")}}</td>
-    <td>
-       @if($user->status == 0)
-       <a class="btn btn-warning text-center" >{{trans('lang.deactive')}}</a>
-       @else
-       <a class="btn btn-success text-center" >{{trans('lang.active')}}</a>
-       @endif</td>
-    <td>
-       <!-- <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a> -->
-       <!-- <a class="btn btn-primary" href="{{ route('wallet.edit',$wallet->id) }}">{{trans('lang.recharge')}}</a> -->
-       <a class="btn btn-primary" href="{{ route('wallet.edit',$wallet->id) }}">{{trans('lang.update_wallet')}}</a>
-        
-    </td>
-  </tr>
- @endforeach
+ @foreach ($wallets as $wallet)
+    <tr>
+        <td>{{ $wallets->firstItem() + $loop->index }}</td>
+        <td>{{ $wallet->user->name ?? 'N/A' }}</td>
+        <td>{{ $wallet->amount }}</td>
+        <td>
+            {{ $wallet->user->user_type ?? 0 == 0 ? "ADMIN" : ($wallet->user->user_type == 1 ? "SELLER" : "BUYER") }}
+        </td>
+        <td>
+            @if($wallet->user->status ?? 0 == 0)
+                <a class="btn btn-warning text-center">{{ trans('lang.deactive') }}</a>
+            @else
+                <a class="btn btn-success text-center">{{ trans('lang.active') }}</a>
+            @endif
+        </td>
+        <td>
+            <a class="btn btn-primary" href="{{ route('wallet.edit', $wallet->id) }}">
+                {{ trans('lang.update_wallet') }}
+            </a>
+        </td>
+    </tr>
+@endforeach
+
 </table>
 
 

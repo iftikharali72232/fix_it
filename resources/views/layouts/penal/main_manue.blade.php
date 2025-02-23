@@ -188,6 +188,19 @@
         </li>
       </ul>
     </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#wallet" data-bs-toggle="collapse" href="#">
+      <i class="icon-container"><img src="{{asset('img/library-icon.png')}}" alt="" ></i>
+      <span>Wallet</span><i class="bi bi-chevron-down {{ app()->getLocale() == 'en' ? 'ms-auto' : 'me-auto' }}"></i>
+      </a>
+      <ul id="wallet" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{route('wallet.index')}}">
+            <i class="bi bi-circle"></i><span>Wallet List</span>
+          </a>
+        </li>
+      </ul>
+    </li>
 
 
 

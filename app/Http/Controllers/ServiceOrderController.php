@@ -12,17 +12,24 @@ use Illuminate\Http\Request;
 
 class ServiceOrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch service orders with the related service name and customer name
-        $serviceOrders = ServiceOrder::join('users', 'service_orders.customer_id', '=', 'users.id')
-            ->join('services', 'service_orders.service_id', '=', 'services.id') // Join the services table to get service name
+        $query = ServiceOrder::join('users', 'service_orders.customer_id', '=', 'users.id')
+            ->join('services', 'service_orders.service_id', '=', 'services.id')
             ->where('users.user_type', 1)
-            ->select('service_orders.*', 'users.name as customer_name', 'services.service_name as service_name')
-            ->get();
+            ->select('service_orders.*', 'users.name as customer_name', 'services.service_name as service_name');
+
+        // If a status filter is applied, add a where clause
+        if ($request->filled('status')) {
+            $query->where('service_orders.status', $request->status);
+        }
+
+        // Apply pagination (e.g., 10 items per page)
+        $serviceOrders = $query->paginate(10);
 
         return view('service_orders.index', compact('serviceOrders'));
     }
+
     // Show the service order creation form
     public function create(Request $request)
     {

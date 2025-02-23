@@ -13,7 +13,7 @@ class WalletController extends Controller
     public function index()
     {
         $data['perPage'] = 10;
-        $data['wallets'] = Wallet::orderByDesc('id')->paginate($data['perPage']);
+        $data['wallets'] = Wallet::with('user')->orderByDesc('id')->paginate($data['perPage']);
         return view('wallet.index', $data);
     }
 
