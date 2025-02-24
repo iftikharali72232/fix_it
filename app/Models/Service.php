@@ -42,5 +42,10 @@ class Service extends Model
     {
         return $this->hasMany(ServiceOffer::class, 'service_id', 'id');
     }
+    // Relationship to the WalletHistory model
+    public function walletHistories()
+    {
+        return $this->hasMany(WalletHistory::class, 'service_id');
+    }
 
 }

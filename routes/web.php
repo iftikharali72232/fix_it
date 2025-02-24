@@ -124,6 +124,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/chats', [ChatApiController::class, 'index'])->name('chats.index');
     Route::get('/chats/{customerId}', [ChatApiController::class, 'show'])->name('chats.show');
     Route::post('/chats', [ChatApiController::class, 'store'])->name('chats.store');
+    Route::get('/wallet/{id}/history', [WalletController::class, 'history'])->name('wallet.history');
+
 });
 
 

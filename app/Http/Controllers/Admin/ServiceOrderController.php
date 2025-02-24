@@ -175,6 +175,15 @@ class ServiceOrderController extends Controller
                 $wallet = Wallet::where('id', $order->customer_id)->first();
                 $amount = $wallet->amount + $order->service_cost;
                 Wallet::where('id', $wallet->id)->update(['amount' => $amount]);
+
+                WalletHistory::create([
+                    'wallet_id' => $wallet->id,
+                    'amount' => $order->service_cost,
+                    'is_deposite' => 1,
+                    'service_id' => $order->service_id,
+                    'description' => "Your Points return agains your Cancel Order. (Order ID=".$order->id.")",
+                ]);
+
                 $order = ServiceOrder::where('id', $id)->update(['status' => 3]);
                 // Commit transaction
                 DB::commit();

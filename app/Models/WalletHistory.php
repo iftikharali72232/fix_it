@@ -16,7 +16,6 @@ class WalletHistory extends Model
         'is_deposite',
         'is_expanse',
         'description',
-        'order_id',
         'service_id',
         'is_read'
     ];
@@ -24,4 +23,15 @@ class WalletHistory extends Model
     protected $casts = [
         'amount' => 'decimal:2',
     ];
+    // Relationship to the Wallet model
+    public function wallet()
+    {
+        return $this->belongsTo(Wallet::class, 'wallet_id');
+    }
+
+    // Relationship to the Service model
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }

@@ -246,6 +246,13 @@ class ServiceOrderController extends Controller
                 if ($wallet) {
                     $newAmount = $wallet->amount + $serviceOrder->service_cost;
                     Wallet::where('id', $wallet->id)->update(['amount' => $newAmount]);
+                    WalletHistory::create([
+                        'wallet_id' => $wallet->id,
+                        'amount' => $serviceOrder->service_cost,
+                        'is_deposite' => 1,
+                        'service_id' => $serviceOrder->service_id,
+                        'description' => "Your Points return agains your Cancel Order. (Order ID=".$serviceOrder->id.")",
+                    ]);
                 }
             }
     

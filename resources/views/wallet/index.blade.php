@@ -55,10 +55,14 @@
             @endif
         </td>
         <td>
-            <a class="btn btn-primary" href="{{ route('wallet.edit', $wallet->id) }}">
-                {{ trans('lang.update_wallet') }}
-            </a>
-        </td>
+          <a class="btn btn-primary" href="{{ route('wallet.edit', $wallet->id) }}">
+              {{ trans('lang.update_wallet') }}
+          </a>
+          <a class="btn btn-info" href="{{ route('wallet.history', $wallet->id) }}">
+              {{ trans('lang.history') }}
+          </a>
+      </td>
+
     </tr>
 @endforeach
 
