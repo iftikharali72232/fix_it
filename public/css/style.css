@@ -710,6 +710,10 @@ h6 {
   border-color: #d3d3d4;
 }
 
+.bg-dark-main {
+  background-color: #4d6f95 !important;
+}
+
 /* Card */
 .card {
   margin-bottom: 30px;

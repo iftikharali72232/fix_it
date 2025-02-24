@@ -3,13 +3,13 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">Service Order Details</h2>
-
+    
     <!-- Service Order Details -->
     <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h5 class="card-title mb-0">Order Details</h5>
+    <div class="card-header p-3 bg-dark-main text-white">
+        <h5 class="mb-0">Order Details</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body px-3 py-4">
         <p><strong>Customer Name:</strong> {{ $serviceOrder->customer->name ?? 'N/A' }}</p>
         <p><strong>Customer Mobile:</strong> {{ $serviceOrder->customer->mobile ?? 'N/A' }}</p>
         <p><strong>Customer Email:</strong> {{ $serviceOrder->customer->email ?? 'N/A' }}</p>
@@ -77,17 +77,19 @@
             </script>
         @endif
 
-        <button onclick="update();">Confirm</button>
+        <button onclick="update();" class="cssbuttons-io">
+            <span>Confirm</span>
+        </button>
     </div>
 </div>
 
 
     <!-- Variables Section -->
     <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-secondary text-white">
-            <h5 class="card-title mb-0">Dynamic Form Variables</h5>
+        <div class="card-header p-3 bg-dark-main text-white">
+            <h5 class="mb-0">Dynamic Form Variables</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body px-3 py-4">
             @if (!empty($variables))
                 <div id="dynamic_form">
                     @foreach ($variables as $variable)
@@ -129,10 +131,10 @@
     <!-- Service Phases -->
 <!-- Service Phases -->
 <div class="card shadow-sm">
-    <div class="card-header bg-info text-white">
-        <h5 class="card-title mb-0">Service Phases</h5>
+    <div class="card-header p-3 bg-dark-main text-white">
+        <h5 class="mb-0">Service Phases</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body px-3 py-4">
         @if (!empty($phases) && $phases->isNotEmpty())
             <table class="table table-striped">
                 <thead>
