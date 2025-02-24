@@ -150,6 +150,7 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
         Route::post('/create', [ServiceOrderController::class, 'create'])->name('createOrder');
         Route::get('/userOrders', [ServiceOrderController::class, 'userOrders'])->name('userOrders');
         Route::get('/singleOrder/{id}', [ServiceOrderController::class, 'singleOrder'])->name('singleOrder');
+        Route::get('/cancelOrder/{id}', [ServiceOrderController::class, 'cancelOrder'])->name('cancelOrder');
     });
         Route::post('/create', [OrderController::class, 'create'])->name('createOrder');
         Route::post('/manualOrder', [OrderController::class, 'manualOrder'])->name('manualOrder');

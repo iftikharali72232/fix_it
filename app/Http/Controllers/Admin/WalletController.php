@@ -339,7 +339,11 @@ class WalletController extends Controller
             return response()->json($wallet);
 
         } else  {
-            return response()->json(['msg' => "User have no wallet"]);
+            $wallet = Wallet::create([
+                'user_id' => $userId
+            ]);
+            $wallet['wallet_id'] = base64_encode($wallet->id."-".$userId);
+            return response()->json($wallet);
         }
     }
 }

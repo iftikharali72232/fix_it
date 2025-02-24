@@ -37,7 +37,7 @@
                     <td class="align-middle">{{ $service->service_name }}</td>
                     <td class="align-middle">{{ $service->category->name ?? 'N/A' }}</td> <!-- Category Name -->
                     <td class="align-middle">{{ $service->description }}</td>
-                    <td class="align-middle">${{ $service->service_cost }}</td>
+                    <td class="align-middle">*{{ $service->service_cost }}</td>
                     <td class="align-middle">
                         <div class="d-flex align-items-center gap-2">
                             <!-- View Button -->
