@@ -8,7 +8,10 @@ use App\Models\ServiceOrder;
 use App\Models\ServicePhase;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\WalletHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceOrderController extends Controller
 {
@@ -25,7 +28,7 @@ class ServiceOrderController extends Controller
         }
 
         // Apply pagination (e.g., 10 items per page)
-        $serviceOrders = $query->paginate(10);
+        $serviceOrders = $query->orderBy('id', 'desc')->paginate(10);
 
         return view('service_orders.index', compact('serviceOrders'));
     }
@@ -34,6 +37,7 @@ class ServiceOrderController extends Controller
     public function create(Request $request)
     {
         $services = Service::all(); // Fetch all services
+        $users = User::where('user_type', 1)->where('status', 1)->pluck('id', 'name');
         $serviceData = null; // Default to null
         $variables = []; // Default to empty array
 
@@ -46,8 +50,8 @@ class ServiceOrderController extends Controller
                 $variables = json_decode($serviceData->variables_json, true);
             }
         }
-
-        return view('service_orders.create', compact('services', 'serviceData', 'variables'));
+        // print_r($variables); exit;
+        return view('service_orders.create', compact('services', 'serviceData', 'variables', 'users'));
     }
     public function updateOrder(Request $request)
     {
@@ -126,37 +130,103 @@ class ServiceOrderController extends Controller
     }
 
     // Store the service order in the database
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'service_id' => 'required|integer|exists:services,id',
-            'variables' => 'required|array',
+            'service_id'   => 'required|integer|exists:services,id',
+            'variables'    => 'required|array',
             'service_cost' => 'required|numeric',
-            'tax' => 'nullable|numeric',
-            'discount' => 'nullable|numeric',
+            'tax'          => 'nullable|string',    // raw input, can be "10%" or numeric string
+            'discount'     => 'nullable|string',    // raw input, can be "5%" or numeric string
             'service_date' => 'required|date',
+            'customer_id'  => 'required|int',
         ]);
+    
+        $user = User::find($request->customer_id);
+        if (empty($user)) {
+            return redirect()->back()->withErrors(['voucher' => "User does not exist"]);
+        }
+    
+        $wallet = Wallet::where('user_id', $request->customer_id)->first();
+        if (empty($wallet)) {
+            return redirect()->back()->withErrors(['voucher' => "Your Voucher ID is invalid"]);
+        }
+    
+        $baseCost = $validatedData['service_cost'];
+    
+        // Calculate tax amount for final cost deduction
+        $calcTax = 0;
+        if (!empty($validatedData['tax'])) {
+            if (strpos($validatedData['tax'], '%') !== false) {
+                $taxPercentage = floatval(str_replace('%', '', $validatedData['tax']));
+                $calcTax = ($baseCost * $taxPercentage) / 100;
+            } else {
+                $calcTax = floatval($validatedData['tax']);
+            }
+        }
+    
+        // Calculate discount amount for final cost deduction
+        $calcDiscount = 0;
+        if (!empty($validatedData['discount'])) {
+            if (strpos($validatedData['discount'], '%') !== false) {
+                $discountPercentage = floatval(str_replace('%', '', $validatedData['discount']));
+                $calcDiscount = ($baseCost * $discountPercentage) / 100;
+            } else {
+                $calcDiscount = floatval($validatedData['discount']);
+            }
+        }
+    
+        // Final cost calculation: base cost + calculated tax - calculated discount
+        $finalCost = $baseCost + $calcTax - $calcDiscount;
+    
+        if ($finalCost > $wallet->amount) {
+            return redirect()->back()->withErrors(['voucher' => "Your Voucher ID does not have enough points to get this service"]);
+        }
+    
         $serviceData = Service::find($request->service_id);
         $variables = [];
         foreach ($request->variables as $label => $value) {
             $variable = collect(json_decode($serviceData->variables_json, true))
                 ->firstWhere('label', $label);
-
+    
             $variables[] = [
-                'label' => $label,
-                'type' => $variable['type'] ?? '',
+                'label'           => $label,
+                'type'            => $variable['type'] ?? '',
                 'dropdown_values' => $variable['dropdown_values'] ?? null,
-                'value' => $value,
+                'value'           => $value,
             ];
         }
-
-        // echo "<pre>";print_r($variables); exit;
         $validatedData['variables_json'] = json_encode($variables);
-
-        ServiceOrder::create($validatedData);
-
+    
+        // Wrap operations in a transaction
+        DB::transaction(function() use ($validatedData, $wallet, $finalCost, $calcTax, $calcDiscount) {
+            // Create Wallet History using the final calculated cost
+            WalletHistory::create([
+                'wallet_id'   => $wallet->id,
+                'amount'      => $finalCost,
+                'is_expanse'  => 1,
+                'service_id'  => $validatedData['service_id'],
+                'description' => 'Charge against Service request (' . $validatedData['service_id'] . ') with Points ' . $finalCost
+            ]);
+    
+            // Deduct final cost from wallet
+            $newAmount = $wallet->amount - $finalCost;
+            Wallet::where('id', $wallet->id)->update(['amount' => $newAmount]);
+    
+            // Add the calculated tax and discount amounts to the validated data
+            $validatedData['tax_amount'] = $calcTax;
+            $validatedData['discount_amount'] = $calcDiscount;
+            $validatedData['service_cost'] = $finalCost;
+            // Create Service Order (storing raw tax/discount in tax and discount columns)
+            ServiceOrder::create($validatedData);
+        });
+    
         return redirect()->route('service_orders.index')->with('success', 'Order created successfully.');
     }
+    
+
+
 
 
     public function updateStatus(Request $request, $id)
@@ -164,11 +234,26 @@ class ServiceOrderController extends Controller
         $request->validate([
             'status' => 'required|integer|in:0,1,2,3,4',
         ]);
-
+    
         $serviceOrder = ServiceOrder::findOrFail($id);
-        $serviceOrder->status = $request->status;
-        $serviceOrder->save();
-
+    
+        DB::transaction(function() use ($request, $serviceOrder) {
+            // If status is 3, refund the service cost back to the user's wallet.
+            if ($request->status == 3) {
+                // Assuming customer_id on ServiceOrder refers to the user id, not wallet id
+                // Adjust accordingly if your wallet is identified differently.
+                $wallet = Wallet::where('user_id', $serviceOrder->customer_id)->first();
+                if ($wallet) {
+                    $newAmount = $wallet->amount + $serviceOrder->service_cost;
+                    Wallet::where('id', $wallet->id)->update(['amount' => $newAmount]);
+                }
+            }
+    
+            // Update order status
+            $serviceOrder->status = $request->status;
+            $serviceOrder->save();
+        });
+    
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 

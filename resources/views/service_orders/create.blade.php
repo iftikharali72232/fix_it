@@ -6,13 +6,34 @@
         <h2>Create Service Order</h2>
 
         <!-- Display Success Message -->
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
         <form action="{{ route('service_orders.create') }}" method="GET">
             @csrf
-
+            <!-- user Dropdown -->
+            <div class="form-group">
+                <label for="customer_id">Select User</label>
+                <select id="customer_id" name="customer_id" class="form-control mb-3" required>
+                    <option value="">Select a User</option>
+                    @foreach($users as $name => $id)
+                        <option value="{{ $id }}" {{ request('customer_id') == $id ? 'selected' : '' }}>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
             <!-- Service Dropdown -->
             <div class="form-group">
                 <label for="service_dropdown">Select Service</label>
@@ -77,31 +98,32 @@
 
                 <!-- Service Cost, Tax, Discount -->
                  <input type="hidden" name="service_id" value="{{$serviceData->id}}">
+                 <input type="hidden" name="customer_id" value="{{ request('customer_id') }}">
                  <div class="col-md-6">
                 <div class="form-group">
                     <label for="service_cost">Service Cost</label>
-                    <input type="text" id="service_cost" name="service_cost" class="form-control mb-3" value="{{ $serviceData->actual_cost }}" readonly />
+                    <input type="text" id="service_cost" name="service_cost" class="form-control mb-3" value="{{ $serviceData->actual_cost }}"  />
                 </div>
                 </div>
 
                 <div class="col-md-6">
                 <div class="form-group">
-                    <label for="service_date">Service Cost</label>
-                    <input type="date" id="service_date" name="service_date" class="form-control mb-3" value="{{ date('Y-m-d'); }}" readonly />
+                    <label for="service_date">Service Date</label>
+                    <input type="date" id="service_date" name="service_date" class="form-control mb-3" value="{{ date('Y-m-d'); }}"  />
                 </div>
                 </div>
 
                 <div class="col-md-6">
                 <div class="form-group">
                     <label for="tax">Tax</label>
-                    <input type="text" id="tax" name="tax" class="form-control mb-3" value="{{ $serviceData->tax }}" readonly />
+                    <input type="text" id="tax" name="tax" class="form-control mb-3" value="{{ $serviceData->tax }}"  />
                 </div>
                 </div>
 
                 <div class="col-md-6">
                 <div class="form-group">
                     <label for="discount">Discount</label>
-                    <input type="text" id="discount" name="discount" class="form-control mb-3" value="{{ $serviceData->discount }}" readonly />
+                    <input type="text" id="discount" name="discount" class="form-control mb-3" value="{{ $serviceData->discount }}"  />
                 </div>
                 </div>
             </div>

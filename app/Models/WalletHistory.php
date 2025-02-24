@@ -17,7 +17,7 @@ class WalletHistory extends Model
         'is_expanse',
         'description',
         'order_id',
-        'invoice_id',
+        'service_id',
         'is_read'
     ];
 
