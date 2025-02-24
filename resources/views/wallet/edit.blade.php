@@ -56,13 +56,13 @@
     <div class="row">
         <div class="col-8">
             <div class="form-group">
-                <strong>{{trans('lang.amount')}}:</strong>
+                <strong>{{trans('lang.points')}}:</strong>
                 <input type="number" id="amount" name="amount" class="form-control" value="0" required onkeyup="calculate();">
             </div>
         </div>
         <div class="col-4 d-none">
             <div class="form-group">
-                <label for="">{{trans('lang.wallet_amount')}}</label>
+                <label for="">{{trans('lang.points')}}</label>
                 <input type="text" id="wallet_amount" readonly class="form-control" value="{{$wallet->amount}}">
             </div>
         </div>

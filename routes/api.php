@@ -178,7 +178,7 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     Route::get("/getFullChatByChatID/{id}", [MessageController::class, 'getFullChatByChatID'])->name('getFullChatByChatID');
 
     Route::post("/charge_in", [WalletController::class, 'charge_in'])->name('charge_in');
-    Route::get("/wallet", [WalletController::class, 'wallet'])->name('wallet');
+    Route::get("/wallet", [WalletController::class, 'userWallet'])->name('wallet');
     Route::post("/walletTransfer", [WalletController::class, 'walletTransfer'])->name('walletTransfer');
     Route::get("/walletHistory", [WalletController::class, 'walletHistory'])->name('walletHistory');
     Route::get("/walletNotification", [WalletController::class, 'walletNotification'])->name('walletNotification');

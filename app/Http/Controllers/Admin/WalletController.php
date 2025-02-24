@@ -327,4 +327,19 @@ class WalletController extends Controller
                 'transactions' => $requests
             ]);
     }
+    public function userWallet()
+    {
+        $userId = auth()->user()->id;
+
+        $wallet = Wallet::where('user_id', $userId)->first();
+        // print_r($wallet); exit;
+        if(!empty($wallet))
+        {
+            $wallet['wallet_id'] = base64_encode($wallet->id."-".$userId);
+            return response()->json($wallet);
+
+        } else  {
+            return response()->json(['msg' => "User have no wallet"]);
+        }
+    }
 }

@@ -33,8 +33,7 @@
  <tr>
    <th>{{trans('lang.number')}}</th>
    <th>{{trans('lang.name')}}</th>
-   <th>{{trans('lang.wallet_amount')}}</th>
-   <th>{{trans('lang.user_type')}}</th>
+   <th>{{trans('lang.points')}}</th>
    <th>{{trans('lang.status')}}</th>
    <th width="280px">{{trans('lang.action')}}</th>
  </tr>
@@ -48,9 +47,6 @@
         <td>{{ $wallets->firstItem() + $loop->index }}</td>
         <td>{{ $wallet->user->name ?? 'N/A' }}</td>
         <td>{{ $wallet->amount }}</td>
-        <td>
-            {{ $wallet->user->user_type ?? 0 == 0 ? "ADMIN" : ($wallet->user->user_type == 1 ? "SELLER" : "BUYER") }}
-        </td>
         <td>
             @if($wallet->user->status ?? 0 == 0)
                 <a class="btn btn-warning text-center">{{ trans('lang.deactive') }}</a>
