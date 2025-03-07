@@ -24,7 +24,7 @@ class AuthController extends Controller
         // print_r($request->name_ar); exit;
         $attrs = $request->validate([
             "name"=> "required|string",
-            "password"=> "required|min:6|confirmed",
+            "password"=> "required|min:6",
             'mobile' => 'required|unique:users',
             'user_type'=> 'required|int',
         ]);
@@ -340,6 +340,10 @@ class AuthController extends Controller
       $data = $attrs;
       unset($data['device_token']);
      $user = User::where('mobile', $attrs['mobile'])->first();
+     if(!$user)
+     {
+        $user = User::where('email', $attrs['mobile'])->first();
+     }
      if($user)
      {//    print_r($user->mobile); exit;
           if($user->user_type == 1 && $user->status == 0)
