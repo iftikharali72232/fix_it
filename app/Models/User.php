@@ -79,8 +79,8 @@ class User extends Authenticatable
             $url = 'https://fcm.googleapis.com/v1/projects/'.getenv('DRIVER_PROJECT_ID').'/messages:send';
 
             // Set your client credentials and refresh token
-            $client_id = getenv('GOOGLE_CLIENT_ID_d');
-            $client_secret = getenv('GOOGLE_CLIENT_SECRET_d');
+            $client_id = getenv('GOOGLE_CLIENT_ID');
+            $client_secret = getenv('GOOGLE_CLIENT_SECRET');
             $refresh_token = getenv('DRIVER_REFRESH_TOKEN'); // Replace with your actual refresh token
         } else {
             $url = 'https://fcm.googleapis.com/v1/projects/'.getenv('DELIVERY_PROJECT_ID').'/messages:send';

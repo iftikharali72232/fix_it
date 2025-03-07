@@ -714,4 +714,11 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
+    function send_push_notification(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'body'
+        ])
+    }
 }
