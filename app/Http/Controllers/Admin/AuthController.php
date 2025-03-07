@@ -369,12 +369,16 @@ class AuthController extends Controller
               ], 403);
           }
 
-          DB::table('users')->where('mobile', $attrs['mobile'])->update([
+          DB::table('users')->where('id', $user->id)->update([
               'device_token' => $attrs['device_token']
           ]);
-              // return redirect()->route("")->with("success","");
+          $user = User::where('mobile', $attrs['mobile'])->first();
+          if(!$user)
+          {
+             $user = User::where('email', $attrs['mobile'])->first();
+          }
               return response([
-                  'user' => auth()->user(),
+                  'user' => $user,
                   'token' => auth()->user()->createToken('secret')->plainTextToken,
               ], 200);
      } else {
@@ -716,9 +720,20 @@ class AuthController extends Controller
     }
     function send_push_notification(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required',
-            'body'
-        ])
+            'body' => 'required',
+            'request_id' => 'required',
+            'device_token' => 'required'
+        ]);
+
+        $user = auth()->user();
+        if($user->user_type == 1)
+        {
+            $data['is_user'] = 1;
+        }
+        // $data['device_token'] = $user->device_token;
+
+        return response()->json(['msg' => sendNotification($data)]);
     }
 }
