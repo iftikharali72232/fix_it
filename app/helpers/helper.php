@@ -159,12 +159,12 @@ function getFivePercent($amount) {
             $client_secret = getenv('GOOGLE_CLIENT_SECRET');
             $refresh_token = getenv('GOOGLE_REFRESH_TOKEN'); // Replace with your actual refresh token
         } else {
-            $url = 'https://fcm.googleapis.com/v1/projects/'.getenv('DELIVERY_PROJECT_ID').'/messages:send';
+            $url = 'https://fcm.googleapis.com/v1/projects/'.getenv('USER_PROJECT_ID_W').'/messages:send';
     
             // Set your client credentials and refresh token
-            $client_id = getenv('GOOGLE_CLIENT_ID');
-            $client_secret = getenv('GOOGLE_CLIENT_SECRET');
-            $refresh_token = getenv('DELIVERY_REFRESH_TOKEN'); // Replace with your actual refresh token
+            $client_id = getenv('GOOGLE_CLIENT_ID_W');
+            $client_secret = getenv('GOOGLE_CLIENT_SECRET_W');
+            $refresh_token = getenv('DELIVERY_REFRESH_TOKEN_W'); // Replace with your actual refresh token
 
         }
         // echo $url; exit;

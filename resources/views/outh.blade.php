@@ -82,4 +82,4 @@ $userInfo = json_decode($userInfoResponse, true);
 echo "User Info: <pre>" . print_r($userInfo, true) . "</pre>";
 ?>
 
-<!-- https://accounts.google.com/o/oauth2/auth?client_id=804960796843-uoiipd0lkqq89vpankgo6q6evhvm0j49.apps.googleusercontent.com&redirect_uri=http://localhost/fix_it/outh&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase.messaging&access_type=offline&prompt=consent&state=firebase_messaging -->
+<!-- https://accounts.google.com/o/oauth2/auth?client_id=283366625990-veavgcj7ctith6qlgpnahnh3c2ecckt7.apps.googleusercontent.com&redirect_uri=http://localhost/fix_it/outh&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase.messaging&access_type=offline&prompt=consent&state=firebase_messaging -->
