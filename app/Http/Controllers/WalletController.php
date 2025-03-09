@@ -40,8 +40,27 @@ class WalletController extends Controller
                 'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'is_deposite' => 1,
-                'description' => $user->name . ' ' . trans('lang.success_recharge_msg') . ' ' . $amount,
+                'description' => $amount. " points successfully added in your voucher.",
             ]);
+            if($user)
+            {
+                $data = [
+                    'user_id' => $user->id,
+                    'text_en' => $amount. " points successfully added in your voucher.",
+                    'text_ar' => "تمت إضافة $amount نقاط بنجاح إلى قسيمتك.",
+                    'request_id' => $wallet->id,
+                    'page' => $request->page
+                ];
+                storeNotification($data);
+                $datap = [
+                    'is_user' => 1,
+                    'device_token' => $user->device_token,
+                    'title' => 'Voucher Update',
+                    'body' => $data['text_en'],
+                    'request_id' => $data['request_id']
+                ];
+                sendNotification($datap);
+            }
         } elseif ($request->has('withdraw') && $request->input('withdraw') == 1) {
             $newAmount = $wallet->amount - $amount;
 
@@ -51,8 +70,27 @@ class WalletController extends Controller
                 'wallet_id' => $wallet->id,
                 'amount' => $amount,
                 'is_expanse' => 1,
-                'description' => $user->name . ' ' . trans('lang.success_withdraw_msg') . ' ' . $amount,
+                'description' => $amount. " points successfully withdrawn.",
             ]);
+            if($user)
+            {
+                $data = [
+                    'user_id' => $user->id,
+                    'text_en' => $amount. " points successfully withdrawn.",
+                    'text_ar' => "تم سحب $amount نقاط بنجاح.",
+                    'request_id' => $wallet->id,
+                    'page' => $request->page
+                ];
+                storeNotification($data);
+                $datap = [
+                    'is_user' => 0,
+                    'device_token' => $user->device_token,
+                    'title' => 'Voucher Update',
+                    'body' => $data['text_en'],
+                    'request_id' => $data['request_id']
+                ];
+                sendNotification($datap);
+            }
         }
 
         return redirect()->route('wallet.index')->with('success', trans('lang.update_message'));

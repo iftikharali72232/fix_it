@@ -259,6 +259,29 @@ class ServiceOrderController extends Controller
             // Update order status
             $serviceOrder->status = $request->status;
             $serviceOrder->save();
+            
+            
+            $user = User::find($serviceOrder->user_id);
+            if($user)
+            {
+                $data = [
+                    'user_id' => $serviceOrder->user_id,
+                    'text_en' => "Your order phase status marked (".getOrderStatusText($request->status, "en").") successfully",
+                    'text_ar' => "تم تغيير حالة مرحلة طلبك إلى (". getOrderStatusText($request->status, "ar") .") بنجاح.",
+                    'request_id' => $serviceOrder->id,
+                    'page' => $request->page
+                ];
+                storeNotification($data);
+                $datap = [
+                    'is_user' => 1,
+                    'device_token' => $user->device_token,
+                    'title' => 'Order Status Update',
+                    'body' => $data['text_en'],
+                    'request_id' => $data['request_id']
+                ];
+                sendNotification($datap);
+            }
+            
         });
     
         return redirect()->back()->with('success', 'Order status updated successfully.');

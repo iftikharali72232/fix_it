@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use App\Models\Notification;
 function removeImages($imageArray, $multi_images = 0) {
     // print_r($imageArray); exit;
     if($multi_images == 1)
@@ -143,6 +144,38 @@ function getFivePercent($amount) {
     return $percentage;
 }
 
+ function storeNotification(array $data)
+    {
+        return Notification::create([
+            'user_id'    => $data['user_id'] ?? null,
+            'text_en'    => $data['text_en'] ?? '',
+            'text_ar'    => $data['text_ar'] ?? '',
+            'request_id' => $data['request_id'] ?? null,
+            'page'       => $data['page'] ?? null,
+        ]);
+    }
+    function getOrderStatusText($status, $lang = 'en')
+    {
+        $statuses = [
+            'en' => [
+                0 => 'Pending',
+                1 => 'Processing',
+                2 => 'Complete',
+                3 => 'Canceled',
+                4 => 'Deleted',
+            ],
+            'ar' => [
+                0 => 'قيد الانتظار',
+                1 => 'قيد المعالجة',
+                2 => 'مكتمل',
+                3 => 'ملغي',
+                4 => 'محذوف',
+            ]
+        ];
+    
+        return $statuses[$lang][$status] ?? ($lang == 'ar' ? 'غير معروف' : 'Unknown');
+    }
+    
  function sendNotification($data)
     {
         // $deviceToken = $data['device_token'];

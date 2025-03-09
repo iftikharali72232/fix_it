@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,14 +72,14 @@ class AuthController extends Controller
        
         if($user)
         {
-            // Wallet::create([
-            //     'user_id' => $user->id
-            // ]);
-            // $notification = new Notification();
-            // $notification->user_id = $user->id; // Assuming the user is authenticated
-            // $notification->message = 'Your account registered Successfully';
-            // $notification->page = 'profile';
-            // $notification->save();
+            $data = [
+                'user_id' => $user->id,
+                'text_en' => "Account created successfully.",
+                'text_ar' => "تم إنشاء الحساب بنجاح.",
+                'request_id' => 0,
+                'page' => $request->page
+            ];
+            storeNotification($data);
             return response([
                 'users' => $user,
                 'token' => $status == 1 ? $user->createToken('secret')->plainTextToken : "",

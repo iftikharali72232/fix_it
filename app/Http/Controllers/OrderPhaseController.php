@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderPhase;
+use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 
 class OrderPhaseController extends Controller
@@ -73,7 +74,16 @@ class OrderPhaseController extends Controller
             'videos' => $videos,
             'description' => $validatedData['description'] ?? null,
         ]);
+        $data = [
+            'user_id' => auth()->user()->id,
+            'text_en' => "Your phase request submit successfully.",
+            'text_ar' => "تم تقديم طلب المرحلة بنجاح.",
+            'request_id' => $validatedData['order_id'],
+            'page' => $request->page
+        ];
+        storeNotification($data);
 
+        
         return response()->json($orderPhase, 200);
     }
 
@@ -95,8 +105,17 @@ class OrderPhaseController extends Controller
             'videos' => 'nullable|array',
             'description' => 'nullable|string',
         ]);
-
+        
+        
         $orderPhase->update($validatedData);
+        $data = [
+            'user_id' => auth()->user()->id,
+            'text_en' => "Your order phase updated successfully",
+            'text_ar' => "تم تحديث مرحلة طلبك بنجاح.",
+            'request_id' => $validatedData['order_id'],
+            'page' => $request->page
+        ];
+        storeNotification($data);
         return response()->json($orderPhase, 200);
     }
 
@@ -116,7 +135,14 @@ class OrderPhaseController extends Controller
         if ($orderPhase) {
             $orderPhase->status = $request->status; // Assuming there's a 'status' column
             $orderPhase->save();
-
+            $data = [
+                'user_id' => $orderPhase->workshop_user_id,
+                'text_en' => "Your order phase status changed (".($request->status == 0 ? "Unapproved" : "Approved").") successfully",
+                'text_ar' => "تم تغيير حالة مرحلة طلبك إلى ". $request->status == 0 ? 'غير معتمد' : 'معتمد' ." بنجاح.",
+                'request_id' => $orderPhase->order_id,
+                'page' => $request->page
+            ];
+            storeNotification($data);
             return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         }
 

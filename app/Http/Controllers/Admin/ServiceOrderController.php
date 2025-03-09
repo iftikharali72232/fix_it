@@ -101,8 +101,17 @@ class ServiceOrderController extends Controller
             $data['discount_amount'] = $calcDiscount;
             $data['service_cost'] = $finalCost;
             // Create Service Order (storing raw tax and discount as provided in tax and discount columns)
+
             $order = ServiceOrder::create($data);
-    
+            $data = [
+                'user_id' => auth()->user()->id,
+                'text_en' => "You order placed successfully.",
+                'text_ar' => "تم تقديم طلبك بنجاح.",
+                'request_id' => $order->id,
+                'page' => $request->page
+            ];
+            storeNotification($data);
+
             // Commit transaction
             DB::commit();
     
@@ -185,6 +194,15 @@ class ServiceOrderController extends Controller
                 ]);
 
                 $order = ServiceOrder::where('id', $id)->update(['status' => 3]);
+
+                $data = [
+                    'user_id' => auth()->user()->id,
+                    'text_en' => "You order cancel successfully.",
+                    'text_ar' => "تم إلغاء طلبك بنجاح.",
+                    'request_id' => $id,
+                    'page' => ""
+                ];
+                storeNotification($data);
                 // Commit transaction
                 DB::commit();
                 return response()->json(['msg' => 'Order cancel successfully', 'status' => 1]);
@@ -219,6 +237,14 @@ class ServiceOrderController extends Controller
         $order->service_date = $request->input('date');
         $order->save();
 
+        $data = [
+            'user_id' => auth()->user()->id,
+            'text_en' => "Your Order ($id) date change successfully.",
+            'text_ar' => "تم تغيير تاريخ طلبك ($id) بنجاح.",
+            'request_id' => $id,
+            'page' => $request->page
+        ];
+        storeNotification($data);
         return response()->json([
             'success' => true,
             'message' => 'Order date updated successfully',

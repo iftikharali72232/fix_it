@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\WishListController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -103,7 +104,13 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
         Route::post('/updateVehicle', [AuthController::class, 'updateVehicle'])->name('updateVehicle');
         Route::post('/send-notification', [AuthController::class, 'send_push_notification'])->name('send_push_notification');
     });
-
+    Route::prefix('notifications')->group(function () {
+        Route::post('/store', [NotificationController::class, 'store']);
+        Route::get('/unread/{user_id}', [NotificationController::class, 'unreadNotifications']);
+        Route::get('/all/{user_id}', [NotificationController::class, 'allNotifications']);
+        Route::post('/mark-as-read/{id}', [NotificationController::class, 'markAsRead']);
+        Route::post('/mark-all-as-read/{user_id}', [NotificationController::class, 'markAllAsRead']);
+    });
     Route::prefix("/category")->group(function () {
         Route::get('/list', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
         Route::post('/services', [CategoryController::class, 'getAllServices'])->name('getAllServices');
