@@ -72,6 +72,9 @@ class AuthController extends Controller
        
         if($user)
         {
+             Wallet::create([
+                'user_id' => $user->id
+            ]);
             $data = [
                 'user_id' => $user->id,
                 'text_en' => "Account created successfully.",
