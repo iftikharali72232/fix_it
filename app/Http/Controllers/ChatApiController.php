@@ -111,14 +111,27 @@ class ChatApiController extends Controller
             $audios = $audioName;
         }
     
-        Chat::create([
+        $chat = Chat::create([
             'customer_id' => $request->input('customer_id'), // Admin specifies the customer
             'text' => $validated['text'],
             'images' => !empty($imagePaths) ? json_encode($imagePaths) : null,
             'audios' => $audios,
             'is_admin' => 1, // Indicate the message is from the admin
         ]);
-    
+        if($chat)
+        {
+            $user = User::find($request->input('customer_id'));
+            $data = [
+                'is_user' => $user->user_type == 1 ? 1 : 0,
+                'device_token' => $user->device_token,
+                'body' => $validated['text'],
+                'title' => 'New Message Received From '.$user->name,
+                'request_id' => $chat->id,
+                'type' => "chat_message"
+            ];
+            // print_r(sendNotification($data)); exit;
+
+        }
         return back()->with('success', 'Message sent successfully!');
     }
 

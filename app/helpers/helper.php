@@ -258,7 +258,8 @@ function getFivePercent($amount) {
                      "body":"'.$data['body'].'"
                  },
                  "data": {
-                    "request_id": "'.$data['request_id'].'"
+                    "request_id": "'.$data['request_id'].'",
+                    "type": "'.(isset($data['type']) ? $data['type'] : "simple_notification").'"
                 }
              }
          }';
