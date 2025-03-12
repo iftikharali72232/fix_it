@@ -16,7 +16,8 @@ class Chat extends Model
         'text',
         'images',
         'audios',
-        'is_admin'
+        'is_admin',
+        'is_read'
     ];
 
     /**

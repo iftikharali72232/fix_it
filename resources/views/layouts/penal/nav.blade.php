@@ -10,9 +10,18 @@
     </div><!-- End Logo -->
 <?php
 
-  use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
-  $new_users = DB::select('SELECT id,name, user_type, created_at FROM users WHERE is_read =0 AND user_type != 0 ORDER BY id DESC'); ?>
+$new_users = DB::select("
+    SELECT chats.id, users.name, chats.customer_id, chats.text, chats.created_at 
+    FROM chats 
+    JOIN users ON chats.customer_id = users.id
+    WHERE chats.is_read = 0 
+    AND chats.is_admin = 0 
+    ORDER BY chats.created_at DESC
+"); 
+// echo "<pre>"; print_r($new_users); exit;
+?>
     <div class="search-bar">
       <form class="search-form d-flex align-items-center mb-0" method="POST" action="#">
         <input type="text" name="query" id="search-input" placeholder="Search" title="Enter search keyword">
@@ -60,21 +69,20 @@
           <ul class="dropdown-menu {{ app()->isLocale('ar') ? 'dropdown-menu-start' : 'dropdown-menu-end' }} dropdown-menu-arrow notifications">
             <li class="dropdown-header">
             {{trans('lang.you_have')}} {{count($new_users)}} {{trans('lang.new_notifications')}}
-              <a href="{{ route('notifications.edit',['all', "choice" => "is_read"]) }}"><span class="badge rounded-pill bg-primary p-2 ms-2">{{trans('lang.read_all')}}</span></a>
+              <!-- <a href="{{ route('notifications.edit',['all', "choice" => "is_read"]) }}"><span class="badge rounded-pill bg-primary p-2 ms-2">{{trans('lang.read_all')}}</span></a> -->
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
           <?php foreach($new_users as $key => $row) {
-              if($row->user_type == 1)
-              {
+              
                 echo '
                 <li class="notification-item">
                   <i class="bi bi-exclamation-circle text-warning"></i>
-                  <a href="'. route('notifications.edit',[$row->id]) .'">
+                  <a href="'.route('chats.show', $row->customer_id) .'">
                   <div>
-                    <h4>'.trans('lang.new_seller').' <a href="'. route('notifications.edit',[$row->id, "choice" => "is_read"]) .'" style="'.(app()->isLocale('ar') ? "margin-right:50px;" : "margin-left:100px;").'" class="text-sm" href="#"><small>'.trans('lang.read').'</small></a></h4>
-                    <p>'.$row->name.' '.trans('lang.new_seller_msg').'</p>
+                    <h4>'.$row->name.' <a href="'.route('chats.show', $row->customer_id) .'" style="'.(app()->isLocale('ar') ? "margin-right:50px;" : "margin-left:100px;").'" class="text-sm" href="#"><small>'.trans('lang.read').'</small></a></h4>
+                    <p>'.$row->text.'</p>
                     <p>'.formatCreatedAt($row->created_at).'</p>
                   </div>
                   </a>
@@ -82,23 +90,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>';
-              } else {
-                echo '
-                <li class="notification-item">
-                  <i class="bi bi-exclamation-circle text-warning"></i>
-                  <a href="'. route('notifications.edit',[$row->id]) .'">
-                  <div>
-                    <h4>'.trans('lang.new_buyer').' <a href="'. route('notifications.edit',[$row->id, "choice" => "is_read"]) .'" style="'.(app()->isLocale('ar') ? "margin-right:70px;" : "margin-left:100px;").'" class="text-sm" href="#"><small>'.trans('lang.read').'</small></a></h4>
-                    <p>'.$row->name.' '.trans('lang.new_buyer_msg').'</p>
-                    <p>'.formatCreatedAt($row->created_at).'</p>
-                  </div>
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>';
-              }
-          }
+            }
             ?>
             
 

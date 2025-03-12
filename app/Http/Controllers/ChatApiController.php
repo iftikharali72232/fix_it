@@ -27,10 +27,18 @@ class ChatApiController extends Controller
     {
         // Fetch all chats for a specific customer
         $customer = User::findOrFail($customerId);
-        $chats = Chat::where('customer_id', $customerId)->orderBy('created_at', 'asc')->get();
+        $chats = Chat::where('customer_id', $customerId)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+        // Mark unread messages as read
+        Chat::where('customer_id', $customerId)->where('is_admin', 0)
+            ->where('is_read', 0)
+            ->update(['is_read' => 1]);
 
         return view('chats.show', compact('customer', 'chats'));
     }
+
     /**
      * Get all chats for a specific customer.
      */
