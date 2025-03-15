@@ -206,6 +206,8 @@ Route::group(["middleware"=> "auth:sanctum"], function () {
     
 
     Route::get('/offer/list', [ServiceController::class, 'offerList'])->name('offerList');
+    Route::get('/latestServices', [ServiceController::class, 'latestServices'])->name('latestServices');
+    Route::get('/offerDetail/{id}', [ServiceController::class, 'offerDetail'])->name('offerDetail');
 
     Route::apiResource('order-phases', OrderPhaseController::class);
     Route::post('/order/{id}/update-date', [ServiceOrderController::class, 'updateOrderDate']);

@@ -20,7 +20,21 @@ class ServiceController extends Controller
         $services = Service::with('category')->get();
         return response()->json($services);
     }
-
+    public function latestServices()
+    {
+        $services = Service::with('category')
+                    ->latest() // Orders by created_at DESC
+                    ->take(10) // Limits to 10 records
+                    ->get();
+    
+        return response()->json($services);
+    }
+    public function offerDetail($id)
+    {
+        $serviceOffers = ServiceOffer::with('service')->where('id', $id)->first(); // Fetch offers with related service data
+        $serviceOffers->image_path = url('/images/'.$serviceOffers->image);
+        return response()->json($serviceOffers);
+    }
     // Show a single service
     public function show($id)
     {
