@@ -45,14 +45,24 @@ class ServiceController extends Controller
         DB::beginTransaction();
 
         try {
-            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+            $thumbnailPath = "";
             $imagePaths = [];
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $imagePaths[] = $image->store('images', 'public');
-                }
+            
+            // Handle Thumbnail Upload
+            if ($request->hasFile('thumbnail')) {
+                $image = $request->file('thumbnail');
+                $thumbnailPath = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('thumbnails'), $thumbnailPath);
             }
 
+            // Handle Multiple Images Upload
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imageName = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('images'), $imageName);
+                    $imagePaths[] = $imageName;
+                }
+            }
             $variablesJson = [];
             if ($request->has('service_variables')) {
                 foreach ($request->input('service_variables') as $variable) {
