@@ -73,9 +73,9 @@ class ServiceOrderController extends Controller
         // Final cost calculation: base cost + tax - discount
         $finalCost = $baseCost + $calcTax - $calcDiscount;
     
-        if ($finalCost > $wallet->amount) {
-            return response()->json(['msg' => "Your Voucher ID does not have enough points to get this service", 'status' => 0]);
-        }
+        // if ($finalCost > $wallet->amount) {
+        //     return response()->json(['msg' => "Your Voucher ID does not have enough points to get this service", 'status' => 0]);
+        // }
     
         // Start transaction
         DB::beginTransaction();

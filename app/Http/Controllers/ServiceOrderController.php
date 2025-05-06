@@ -180,9 +180,9 @@ class ServiceOrderController extends Controller
         // Final cost calculation: base cost + calculated tax - calculated discount
         $finalCost = $baseCost + $calcTax - $calcDiscount;
     
-        if ($finalCost > $wallet->amount) {
-            return redirect()->back()->withErrors(['voucher' => "Your Voucher ID does not have enough points to get this service"]);
-        }
+        // if ($finalCost > $wallet->amount) {
+        //     return redirect()->back()->withErrors(['voucher' => "Your Voucher ID does not have enough points to get this service"]);
+        // }
     
         $serviceData = Service::find($request->service_id);
         $variables = [];
